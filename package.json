@@ -6,5 +6,8 @@
   "repository": "git@github.com:SoggyPiggy/collector-core.git",
   "author": "SoggyPiggy <soggypiggy@gmail.com>",
   "license": "apache-2.0",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "random-js": "^2.1.0"
+  }
 }
