@@ -12,8 +12,14 @@
     "mongodb": "^3.6.2",
     "random-js": "^2.1.0"
   },
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1"
+  },
   "scripts": {
     "start": "node -r esm index.js",
-    "repl": "node -r esm"
+    "repl": "node -r esm",
+    "lint": "./node_modules/.bin/eslint ./ --fix"
   }
 }
