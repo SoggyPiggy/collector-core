@@ -1,9 +1,9 @@
-import Version_0_5_X from './changes/version_0_5_X'
-import Version_0_4_X from './changes/version_0_4_X'
-import Version_0_3_X from './changes/version_0_3_X'
-import Version_0_2_X from './changes/version_0_2_X'
-import Version_0_1_X from './changes/version_0_1_X'
-
+/* eslint-disable camelcase */
+import Version_0_5_X from './changes/version_0_5_X';
+import Version_0_4_X from './changes/version_0_4_X';
+import Version_0_3_X from './changes/version_0_3_X';
+import Version_0_2_X from './changes/version_0_2_X';
+import Version_0_1_X from './changes/version_0_1_X';
 
 export const getList = function getChangeLogList() {
   return [
