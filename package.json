@@ -11,5 +11,9 @@
     "esm": "^3.2.25",
     "mongodb": "^3.6.2",
     "random-js": "^2.1.0"
+  },
+  "scripts": {
+    "start": "node -r esm index.js",
+    "repl": "node -r esm"
   }
 }
