@@ -1,5 +1,6 @@
 import { DMChannel } from 'discord.js';
 import { process } from '../commands';
+import { Account } from '../structures';
 import client from './client';
 import { send } from './speaker';
 
@@ -16,7 +17,8 @@ const processMessage = async function processMessageFromClientEvent(message) {
   if (author.bot) return;
   if (!(channel instanceof DMChannel || content.startsWith('>'))) return;
   const input = content.toLowerCase().replace(/^>/g, '');
-  process(input, message)
+  const account = await Account.find({ discordID: author.id });
+  process(input, account)
     .then((...replyData) => send(...replyData))
     .catch((error) => send(error, 'reply', { message }));
 };
