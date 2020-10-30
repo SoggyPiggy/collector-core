@@ -5,68 +5,82 @@ export const dbCollection = async function getDatabaseCollectionCoin() {
   return (await database()).collection('coins');
 };
 
+/**
+ * @typedef {import('bson').ObjectID} ObjectID
+ */
+
+/**
+ * @typedef {object} CoinOptions
+ * @property {ObjectID} [_id]
+ * @property {number} [_postgresID]
+ * @property {ObjectID} [seriesID]
+ * @property {string} [name]
+ * @property {string} [directory]
+ * @property {string} [directoryTails]
+ * @property {number} [weight]
+ * @property {number} [value]
+ * @property {boolean} [inCirculation]
+ * @property {boolean} [isRetired]
+ * @property {boolean} [isError]
+ */
+
 export default class Coin {
-  constructor({
-    _id,
-    _postgresID,
-    seriesID = undefined,
-    name = 'UNDEFINED',
-    directory = '_coin',
-    directoryTails = '_coin',
-    weight = (() => random.integer(750, 1000))(),
-    value = 0,
-    inCirculation = true,
-    isRetired = false,
-    isError = false,
-  }) {
-    this._id = _id;
-    this._postgresID = _postgresID;
-    this.seriesID = seriesID;
-    this.name = name;
-    this.directory = directory;
-    this.directoryTails = directoryTails;
-    this.weight = weight;
-    this.value = value;
-    this.inCirculation = inCirculation;
-    this.isRetired = isRetired;
-    this.isError = isError;
+  /**
+   * @param {CoinOptions} options
+   */
+  constructor(options = {}) {
+    this._id = undefined;
+    this._postgresID = undefined;
+    this.seriesID = undefined;
+    this.name = undefined;
+    this.directory = '_coin';
+    this.directoryTails = '_coin';
+    this.weight = (() => random.integer(750, 1000))();
+    this.value = 0;
+    this.inCirculation = true;
+    this.isRetired = false;
+    this.isError = false;
+    Object.assign(this, options);
   }
 
   static get collection() { return dbCollection(); }
 
-  static async new(series, params) {
+  /**
+   * Create a new coin
+   * @param {import('./Series').default} series
+   * @param {CoinOptions} options
+   * @returns {Coin}
+   */
+  static async new(series, options) {
     const collection = await dbCollection();
+    const coin = new Coin({ ...options, seriesID: series._id });
     return new Promise((resolve, reject) => {
-      collection.insertOne(new Coin({ ...params, seriesID: series._id }))
+      collection.insertOne(coin)
         .catch(reject)
-        .then((coin) => resolve(new Coin(coin)));
+        .then(({ insertedId }) => resolve(new Coin({ ...coin, _id: insertedId })));
     });
   }
 
+  /**
+   * Get one coin based on its _id property
+   * @param {ObjectID} id
+   * @returns {Coin}
+   */
   static async get(id) {
-    const collection = await dbCollection();
-    return new Promise((resolve, reject) => {
-      collection.findOne({ _id: id })
-        .catch(reject)
-        .then((coin) => resolve(new Coin(coin)));
-    });
+    return Coin.find({ _id: id });
   }
 
-  static async findOne(...params) {
+  /**
+   * Get one coin based on its properties
+   * @param {CoinOptions} query
+   * @returns {Coin}
+   */
+  static async find(query = {}) {
     const collection = await dbCollection();
     return new Promise((resolve, reject) => {
-      collection.findOne(...params)
+      collection.findOne(query)
         .catch(reject)
         .then((coin) => resolve(new Coin(coin)));
-    });
-  }
-
-  static async find(...params) {
-    const collection = await dbCollection();
-    return new Promise((resolve, reject) => {
-      collection.find(...params)
-        .catch(reject)
-        .then((coins) => resolve(coins.map((coin) => new Coin(coin))));
     });
   }
 }
