@@ -38,11 +38,18 @@ export default class Account {
   }
 
   static async get(id) {
+    return Account.find({ _id: id });
+  }
+
+  static async find(params) {
     const collection = await dbCollection();
     return new Promise((resolve, reject) => {
-      collection.findOne({ _id: id })
+      collection.findOne(params)
         .catch(reject)
-        .then((coin) => resolve(new Account(coin)));
+        .then((coin) => {
+          if (coin === null) resolve(undefined);
+          else resolve(new Account(coin));
+        });
     });
   }
 }
