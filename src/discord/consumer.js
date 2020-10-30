@@ -18,7 +18,7 @@ const processMessage = async function processMessageFromClientEvent(message) {
   const input = content.toLowerCase().replace(/^>/g, '');
   process(input, message)
     .then((...replyData) => send(...replyData))
-    .catch(() => {});
+    .catch((error) => send(error, 'reply', { message }));
 };
 
 client.on('message', processMessage);

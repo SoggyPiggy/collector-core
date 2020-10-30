@@ -7,6 +7,8 @@ import {
 
 export const resolveMessage = function resolveMessageFromContentPassed(content) {
   switch (true) {
+    case content instanceof Error:
+      return content.message;
     case content instanceof Account:
     case content instanceof Coin:
     case content instanceof CoinInstance:
