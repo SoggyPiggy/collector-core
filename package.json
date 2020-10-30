@@ -21,6 +21,7 @@
   "scripts": {
     "start": "node -r esm index.js",
     "repl": "node -r esm",
+    "gen-command": "node -r esm ./scripts/generate_command.js",
     "lint": "./node_modules/.bin/eslint ./ --fix"
   }
 }
