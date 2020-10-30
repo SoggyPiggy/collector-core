@@ -8,6 +8,7 @@
   "license": "apache-2.0",
   "private": true,
   "dependencies": {
+    "discord.js": "^12.4.1",
     "esm": "^3.2.25",
     "mongodb": "^3.6.2",
     "random-js": "^2.1.0"
