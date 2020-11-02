@@ -1,6 +1,11 @@
-import { database } from '../database';
+import {
+  database,
+  insertOne,
+  fineOne,
+  updateOne,
+} from '../database';
 
-export const dbCollection = async function getDatabaseCollectionCoin() {
+export const collection = async function getDatabaseCollectionCoin() {
   return (await database()).collection('accounts');
 };
 
@@ -38,6 +43,9 @@ const findFromCaches = function findFromCachesFromID(id) {
  */
 
 export default class Account {
+  /**
+   * @param {AccountOptions} options
+   */
   constructor(options = {}) {
     this._id = undefined;
     this.discordID = '0';
@@ -53,19 +61,20 @@ export default class Account {
 
   get adminOverride() { return this.isAdmin && this.isAdminEnabled; }
 
-  static get collection() { return dbCollection(); }
+  save() {
+    return Account.update(this);
+  }
+
+  static get collection() { return collection(); }
 
   /**
    * @param {AccountOptions} options
+   * @returns {Account}
    */
   static async new(options) {
-    const collection = await dbCollection();
-    const account = new Account(options);
-    return new Promise((resolve, reject) => {
-      collection.insertOne(account)
-        .catch(reject)
-        .then(({ insertedId }) => resolve(new Account({ ...account, _id: insertedId })));
-    });
+    const account = new Account(collection(), options);
+    updateCaches(account);
+    return new Account(await insertOne(account));
   }
 
   /**
@@ -73,30 +82,37 @@ export default class Account {
    * @returns {Account}
    */
   static async getByDiscordUser(user) {
-    if (cacheDiscordID.has(user.id)) {
-      const _id = cacheDiscordID(user.id);
-      if (cacheAccount.has(_id)) return cacheAccount.get(_id);
-    }
+    const account = findFromCaches(user.id);
+    if (typeof account !== 'undefined') return account;
     return Account.find({ discordID: user.id });
   }
 
+  /**
+   * @param {string} id
+   * @returns {Account}
+   */
   static async getByID(id) {
+    const account = findFromCaches(id);
+    if (typeof account !== 'undefined') return account;
     return Account.find({ _id: id });
   }
 
+  /**
+   * @param {AccountOptions} params
+   * @returns {Account}
+   */
   static async find(params) {
-    const collection = await dbCollection();
-    return new Promise((resolve, reject) => {
-      collection.findOne(params)
-        .catch(reject)
-        .then((account) => {
-          if (account === null) resolve(undefined);
-          else {
-            cacheAccount.set(account._id, account);
-            cacheDiscordID.set(account.discordID, account._id);
-            resolve(new Account(account));
-          }
-        });
-    });
+    const account = new Account(await fineOne(collection(), params));
+    updateCaches(account);
+    return account;
+  }
+
+  /**
+   * @param {AccountOptions} account
+   */
+  static async update(account) {
+    const accountUpdated = (await updateOne(collection(), account));
+    updateCaches(accountUpdated);
+    return accountUpdated;
   }
 }
