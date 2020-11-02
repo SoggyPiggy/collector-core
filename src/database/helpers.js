@@ -16,3 +16,12 @@ export const updateOne = async function dbHelperUpdateOne(collection, obj, optio
       .then(() => resolve(obj));
   });
 };
+
+export const fineOne = async function dbHelperFindOne(collection, query) {
+  collection = await collection;
+  return new Promise((resolve, reject) => {
+    collection.fineOne(query)
+      .catch(reject)
+      .then(resolve);
+  });
+};
