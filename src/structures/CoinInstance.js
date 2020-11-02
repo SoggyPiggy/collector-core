@@ -16,25 +16,15 @@ export const processConditionRoll = function processCoinInstanceConditionRoll(ro
 };
 
 export default class Coin {
-  constructor({
-    _id,
-    coinID,
-    conditionRoll = generateConditionRoll,
-    condition = processConditionRoll,
-    conditionNatural,
-    value = 0,
-    isAltered = false,
-  }) {
-    const generatedRoll = typeof conditionRoll === 'function' ? conditionRoll() : conditionRoll;
-    const generatedCondition = typeof condition === 'function' ? condition(generatedRoll) : condition;
-
-    this._id = _id;
-    this.coinID = coinID;
-    this.condition = generatedCondition;
-    this.conditionRoll = generatedRoll;
-    this.conditionNatural = typeof conditionNatural === 'undefined' ? generatedCondition : conditionNatural;
-    this.value = value;
-    this.isAltered = isAltered;
+  constructor(options = {}) {
+    this._id = undefined;
+    this._coinID = undefined;
+    this.conditionRoll = generateConditionRoll();
+    this.condition = processConditionRoll(this.conditionRoll);
+    this.conditionNatural = this.condition;
+    this.value = 0;
+    this.isAltered = false;
+    Object.assign(this, options);
   }
 
   static get collection() { return dbCollection(); }

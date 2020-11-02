@@ -5,22 +5,16 @@ export const dbCollection = async function getDatabaseCollectionCoin() {
 };
 
 export default class Account {
-  constructor({
-    _id,
-    _postgresID,
-    discordID,
-    discordUsername,
-    scrap = 0,
-    isAdmin = false,
-    isAdminEnabled = false,
-  }) {
-    this._id = _id;
-    this._postgresID = _postgresID;
-    this.discordID = discordID;
-    this.discordUsername = discordUsername;
-    this.scrap = scrap;
-    this.isAdmin = isAdmin;
-    this.isAdminEnabled = isAdminEnabled;
+  constructor(options = {}) {
+    this._id = undefined;
+    this.discordID = '0';
+    this.discordUsername = '';
+    this.scrap = 0;
+    this.isAdmin = false;
+    this.isAdminEnabled = false;
+    this.settingSendNotifications = true;
+    this.discordiaTechDemoInvite = false;
+    Object.assign(this, options);
   }
 
   get adminOverride() { return this.isAdmin && this.isAdminEnabled; }

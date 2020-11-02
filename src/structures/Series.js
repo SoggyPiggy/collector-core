@@ -5,16 +5,12 @@ export const dbCollection = async function getDatabaseCollectionCoin() {
 };
 
 export default class Series {
-  constructor({
-    _id = undefined,
-    name = undefined,
-    directory = '_default',
-    seriesID = undefined,
-  }) {
-    this._id = _id;
-    this.name = name;
-    this.directory = directory;
-    this.seriesID = seriesID;
+  constructor(options = {}) {
+    this._id = undefined;
+    this._seriesID = undefined;
+    this.name = '';
+    this.directory = './';
+    Object.assign(this, options);
   }
 
   static get collection() { return dbCollection(); }
