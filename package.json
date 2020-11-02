@@ -24,6 +24,8 @@
     "start": "node -r esm -r dotenv/config index.js",
     "repl": "node -r esm -r dotenv/config",
     "gen-command": "node -r esm ./scripts/generate_command.js",
+    "gen-seed": "node -r esm -r dotenv/config ./scripts/generate_seed.js",
+    "update-seeds": "node -r esm -r dotenv/config ./scripts/update_seeds.js",
     "lint": "./node_modules/.bin/eslint ./ --fix"
   }
 }
