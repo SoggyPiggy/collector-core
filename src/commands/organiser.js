@@ -13,6 +13,7 @@ export const commandsAll = [
   require('./commands/suggest').default,
   require('./commands/patches').default,
   require('./commands/collect').default,
+  require('./commands/claim').default,
   require('./commands/profile').default,
   require('./commands/pp_compare').default,
   require('./commands/collection').default,
