@@ -29,8 +29,9 @@ const runSeeds = function runSeedsRecursive(seeds) {
 };
 
 export const update = async function updateDatabaseWithNewSeeds() {
-  const currentVersion = await Setting.get('seed_version', 0);
   const path = join(process.cwd(), '/src/database/seeds/');
+  const currentVersion = await Setting.get('seed_version', 0);
+  let latestVersion = currentVersion;
   return new Promise((resolve) => {
     Promise.all(
       fs.readdirSync(path).map((file) => import(join(path, file))),
@@ -39,9 +40,11 @@ export const update = async function updateDatabaseWithNewSeeds() {
         .map((module) => module.default)
         .filter(({ version }) => version > currentVersion)
         .sort((a, b) => a.version > b.version);
-      runSeeds(seeds);
-      const latestVersion = seeds[seeds.length - 1].version;
-      Setting.set('seed_version', latestVersion);
+      if (seeds.length) {
+        runSeeds(seeds);
+        latestVersion = seeds[seeds.length - 1].version;
+        Setting.set('seed_version', latestVersion);
+      }
       resolve({ seeds, old: currentVersion, new: latestVersion });
     }).catch();
   });
