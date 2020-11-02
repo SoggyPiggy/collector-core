@@ -4,6 +4,21 @@ export const dbCollection = async function getDatabaseCollectionCoin() {
   return (await database()).collection('accounts');
 };
 
+export const cacheAccount = new Map();
+export const cacheDiscordID = new Map();
+
+/**
+ * @typedef {Object} AccountOptions
+ * @property {import('mongodb').ObjectID} [_id]
+ * @property {string} [discordID]
+ * @property {string} [discordUsername]
+ * @property {number} [scrap]
+ * @property {boolean} [isAdmin]
+ * @property {boolean} [isAdminEnabled]
+ * @property {boolean} [settingSendNotifications]
+ * @property {boolean} [discordiaTechDemoInvite]
+ */
+
 export default class Account {
   constructor(options = {}) {
     this._id = undefined;
@@ -21,17 +36,32 @@ export default class Account {
 
   static get collection() { return dbCollection(); }
 
-  static async new(params) {
+  /**
+   * @param {AccountOptions} options
+   */
+  static async new(options) {
     const collection = await dbCollection();
+    const account = new Account(options);
     return new Promise((resolve, reject) => {
-      const account = new Account(typeof params === 'string' ? { discordId: params } : params);
-      collection.insertOne(new Account(params))
+      collection.insertOne(account)
         .catch(reject)
-        .then((coin) => resolve(new Account(coin)));
+        .then(({ insertedId }) => resolve(new Account({ ...account, _id: insertedId })));
     });
   }
 
-  static async get(id) {
+  /**
+   * @param {import('discord.js').User} user
+   * @returns {Account}
+   */
+  static async getByDiscordUser(user) {
+    if (cacheDiscordID.has(user.id)) {
+      const _id = cacheDiscordID(user.id);
+      if (cacheAccount.has(_id)) return cacheAccount.get(_id);
+    }
+    return Account.find({ discordID: user.id });
+  }
+
+  static async getByID(id) {
     return Account.find({ _id: id });
   }
 
@@ -40,9 +70,13 @@ export default class Account {
     return new Promise((resolve, reject) => {
       collection.findOne(params)
         .catch(reject)
-        .then((coin) => {
-          if (coin === null) resolve(undefined);
-          else resolve(new Account(coin));
+        .then((account) => {
+          if (account === null) resolve(undefined);
+          else {
+            cacheAccount.set(account._id, account);
+            cacheDiscordID.set(account.discordID, account._id);
+            resolve(new Account(account));
+          }
         });
     });
   }
