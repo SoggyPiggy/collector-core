@@ -26,6 +26,8 @@ export default class Suggestion {
     Object.assign(this, options);
   }
 
+  static get collection() { return dbCollection(); }
+
   /**
    * Create a new Suggestion
    * @param {import('./Account').default} account
