@@ -88,7 +88,7 @@ export default class Account {
   }
 
   /**
-   * @param {string} id
+   * @param {import('mongodb').ObjectID|string} id
    * @returns {Account}
    */
   static async getByID(id) {
