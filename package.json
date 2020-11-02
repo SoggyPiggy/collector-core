@@ -20,7 +20,8 @@
     "eslint-plugin-import": "^2.22.1"
   },
   "scripts": {
-    "start": "node -r esm index.js",
+    "prod": "node -r esm index.js",
+    "start": "node -r esm -r dotenv/config index.js",
     "repl": "node -r esm",
     "gen-command": "node -r esm ./scripts/generate_command.js",
     "lint": "./node_modules/.bin/eslint ./ --fix"
