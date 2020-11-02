@@ -1,9 +1,13 @@
 import crypto from 'crypto';
 import Command from '../Command';
 
+export const generateHash = function generateSecureHashForCodes(code) {
+  return crypto.createHmac('sha256', process.env.HASH_KEY).update(code).digest('hex');
+};
+
 const execute = async function executeCommand({ inputArguments }) {
   const [code] = inputArguments;
-  const hash = crypto.createHmac('sha256', process.env.HASH_KEY).update(code).digest('hex');
+  const hash = generateHash(code);
   switch (hash) {
     // Doomsday code
     case '828a871294bf08124b4abbb646cd04f10d65a1bfd7621c16a54b62365d7b75d0':

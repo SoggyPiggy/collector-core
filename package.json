@@ -26,6 +26,7 @@
     "gen-command": "node -r esm ./scripts/generate_command.js",
     "gen-seed": "node -r esm -r dotenv/config ./scripts/generate_seed.js",
     "update-seeds": "node -r esm -r dotenv/config ./scripts/update_seeds.js",
+    "gen-hash": "node -r esm -r dotenv/config ./scripts/claim_code_gen_hash.js",
     "lint": "./node_modules/.bin/eslint ./ --fix"
   }
 }
