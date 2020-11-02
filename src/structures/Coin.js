@@ -12,8 +12,7 @@ export const dbCollection = async function getDatabaseCollectionCoin() {
 /**
  * @typedef {object} CoinOptions
  * @property {ObjectID} [_id]
- * @property {number} [_postgresID]
- * @property {ObjectID} [seriesID]
+ * @property {ObjectID} [_seriesID]
  * @property {string} [name]
  * @property {string} [directory]
  * @property {string} [directoryTails]
@@ -30,8 +29,7 @@ export default class Coin {
    */
   constructor(options = {}) {
     this._id = undefined;
-    this._postgresID = undefined;
-    this.seriesID = undefined;
+    this._seriesID = undefined;
     this.name = undefined;
     this.directory = '_coin';
     this.directoryTails = '_coin';
@@ -53,7 +51,7 @@ export default class Coin {
    */
   static async new(series, options) {
     const collection = await dbCollection();
-    const coin = new Coin({ ...options, seriesID: series._id });
+    const coin = new Coin({ ...options, _seriesID: series._id });
     return new Promise((resolve, reject) => {
       collection.insertOne(coin)
         .catch(reject)
