@@ -22,7 +22,7 @@
   "scripts": {
     "prod": "node -r esm index.js",
     "start": "node -r esm -r dotenv/config index.js",
-    "repl": "node -r esm",
+    "repl": "node -r esm -r dotenv/config",
     "gen-command": "node -r esm ./scripts/generate_command.js",
     "lint": "./node_modules/.bin/eslint ./ --fix"
   }
