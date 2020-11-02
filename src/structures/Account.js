@@ -8,6 +8,23 @@ export const cacheAccount = new Map();
 export const cacheDiscordID = new Map();
 
 /**
+ * @param {AccountOptions} account
+ */
+const updateCaches = function updateCachesForAccount(account) {
+  cacheAccount.set(account._id, account);
+  cacheDiscordID.set(account.discordID, account);
+};
+
+/**
+ * @param {string} id
+ * @returns {Account|undefined}
+ */
+const findFromCaches = function findFromCachesFromID(id) {
+  const _id = cacheDiscordID.has(id) ? cacheDiscordID.get(id) : id;
+  return cacheAccount.get(_id);
+};
+
+/**
  * @typedef {Object} AccountOptions
  * @property {import('mongodb').ObjectID} [_id]
  * @property {string} [discordID]
