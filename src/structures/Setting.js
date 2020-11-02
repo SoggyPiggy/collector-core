@@ -6,11 +6,23 @@ export const dbCollection = async function getDatabaseCollectionCoin() {
 
 export default class Setting {
   static async get(key, fallback) {
-    // TODO: Add actual shit to make this work, scrapped the old error riddled functions
-    return fallback;
+    const collection = await dbCollection();
+    return new Promise((resolve) => {
+      collection.findOne({ key })
+        .then((result) => {
+          if (typeof result === 'object'
+            && result !== null
+            && typeof result.value !== 'undefined') resolve(result.value);
+          else resolve(Setting.set(key, fallback));
+        });
+    });
   }
 
   static async set(key, value) {
-    return value;
+    const collection = await dbCollection();
+    return new Promise((resolve) => {
+      collection.updateOne({ key }, { $set: { key, value } }, { upsert: true })
+        .then(() => resolve(value));
+    });
   }
 }
