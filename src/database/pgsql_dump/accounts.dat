@@ -1,0 +1,52 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.3
+-- Dumped by pg_dump version 12.4 (Ubuntu 12.4-0ubuntu0.20.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Data for Name: accounts; Type: TABLE DATA; Schema: public; Owner: gigalixir_admin
+--
+
+COPY public.accounts (id, discord_id, inserted_at, updated_at) FROM stdin;
+1	105094380452356096	2020-09-01 17:24:27	2020-09-01 17:24:27
+3	143118763066130432	2020-09-01 17:31:36	2020-09-01 17:31:36
+4	0	2020-09-01 17:35:17	2020-09-01 17:35:17
+5	105094546005696512	2020-09-01 17:46:41	2020-09-01 17:46:41
+6	143118807613964288	2020-09-01 18:15:01	2020-09-01 18:15:01
+7	179143916719702016	2020-09-01 19:32:15	2020-09-01 19:32:15
+8	247808453098209280	2020-09-01 19:56:02	2020-09-01 19:56:02
+9	254717727736987648	2020-09-01 21:11:51	2020-09-01 21:11:51
+10	160609436333899776	2020-09-01 23:12:29	2020-09-01 23:12:29
+11	105497958753034240	2020-09-02 04:38:58	2020-09-02 04:38:58
+12	114471407466971137	2020-09-02 19:14:35	2020-09-02 19:14:35
+13	188171936478658561	2020-09-03 04:28:26	2020-09-03 04:28:26
+14	108438955820584960	2020-09-11 06:38:25	2020-09-11 06:38:25
+15	247808090706018305	2020-09-16 15:13:07	2020-09-16 15:13:07
+16	154344032401752064	2020-09-29 05:33:31	2020-09-29 05:33:31
+\.
+
+
+--
+-- Name: accounts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gigalixir_admin
+--
+
+SELECT pg_catalog.setval('public.accounts_id_seq', 16, true);
+
+
+--
+-- PostgreSQL database dump complete
+--
+

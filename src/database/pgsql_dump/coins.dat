@@ -1,0 +1,157 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.3
+-- Dumped by pg_dump version 12.4 (Ubuntu 12.4-0ubuntu0.20.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Data for Name: coins; Type: TABLE DATA; Schema: public; Owner: gigalixir_admin
+--
+
+COPY public.coins (id, name, file_dir, set_id, in_circulation, weight, value, is_error) FROM stdin;
+12	Burmese Dwarf Stickleback	paradoxus-toothpick	4	t	974	5.41119436548694	f
+82	Sodapoppin	soda	16	t	934	5.93206797365065	f
+43	Pac-man	pacman	9	t	949	5.070180963225781	f
+50	Caste Separation Protest	fall-of-constantinople	11	f	762	13.560832021051619	t
+52	D-Day	hidenburg	11	f	969	6.594470339445713	t
+96	Brendan	dassey	18	t	825	8.904471714389071	f
+53	The Fall of Constantinople	normandy	11	f	852	9.701356544566172	t
+14	Chequered Gudgeon	purple-morgurnda	4	t	994	4.581981808220755	f
+51	Hidenburg	ghandi-caste-seperation	11	f	807	11.416438624732189	t
+90	Joe	exotic	18	t	787	9.573761051940355	f
+45	A Dream	a-dream	11	t	994	4.92138786808896	f
+100	Hindenburg	hidenburg	11	t	969	5.495391949538094	f
+19	Chupacabra	chupacabra	6	t	886	6.709738818968876	f
+33	Ramirez	ramirez	8	t	818	8.83053134605502	f
+36	Trebuchet	trebuchet	8	t	812	8.716430932535385	f
+59	Emily Haines	metric	13	t	820	8.463796714112293	f
+3	Homie	homie	2	t	773	10.825090169699457	f
+15	Sawbwa Barb	rummy-nose-rasbora	4	t	840	8.154716913220314	f
+73	CDNthe3rd	ceez	16	t	848	7.652779923471503	f
+6	The Art of Seduction	rp	2	t	842	8.375943320514207	f
+54	Woodstock '69	woodstock	11	t	905	6.295946708858505	f
+8	Great Angles	worm	2	t	957	5.704718132655263	f
+97	The Fall of Constantinople	fall-of-constantinople	11	t	762	10.924003572513804	f
+65	Donald Glover jr	gambino	14	t	766	10.382943053040092	f
+56	Matt Shultz	cage	13	t	909	6.435097002721009	f
+57	Thomas & Guy	daft	13	t	764	10.090958917006356	f
+26	Lahabrea	ascian	8	t	762	10.924003572513804	f
+30	Meat Boy	meat	8	t	968	5.328692699075371	f
+66	Lassi Kotamaki	idealism	14	t	964	5.395300591678581	f
+20	Dover Demon	dover-demon	6	t	786	9.61034863428791	f
+18	Bigfoot	bigfoot	6	t	956	5.531884076761173	f
+42	Jeanette	jeanette	9	t	960	5.086263020833334	f
+34	Steve	steve	8	t	929	5.82049122703404	f
+40	Terrorist	csgo-t	9	t	866	7.442058361085639	f
+9	Zach & I	zach-i	2	t	913	6.131891311870849	f
+25	Dark Watchers	watchers	6	t	767	11.081126493933374	f
+17	Altamaha-ha	altie	6	t	793	9.358090029493097	f
+49	Great Migration of 1843	emigration	11	t	881	7.068365887591817	f
+1	CarrotBoi	carrot	2	t	998	4.862449721163255	f
+93	Steven	steven	18	t	916	6.288692023394588	f
+69	Josh & Tyler	top	14	t	792	9.058097040190702	f
+31	Tom Nook	nook	8	t	895	6.974304395956366	f
+32	PUBG Guy	pubg	8	t	782	10.455618900620614	f
+5	lil zebra	lil-dan	2	t	913	6.35088743015195	f
+87	Brenden	dassey	18	f	825	10.685366057266885	t
+13	Peacock Gudgeon	peacock-gudgeon	4	t	870	6.833681851107739	f
+37	Agent 47	agent-47	9	t	860	7.860943061617217	f
+55	Alex Clare	alex-clare	13	t	881	7.068365887591817	f
+29	Link	link	8	t	911	6.392807344352294	f
+62	Julian Casablancas	the-strokes	13	t	859	6.836638338114362	f
+16	Scarlet Badis	scarlet-badis	4	t	937	5.875271965680854	f
+27	Excalibur	excalibur	8	t	867	6.649129709810207	f
+68	Mike Skwark	smrtdeath	14	t	809	8.498982772805558	f
+47	Fall of the Berlin Wall	berlin-wall	11	t	758	11.480541886720335	f
+28	Fragile	fragile	8	t	968	5.144944674969324	f
+22	Mothman	mothman	6	t	951	5.232038884010708	f
+38	Baldi	baldi	9	t	870	7.339880506745349	f
+71	Mia Vaile	veorra-mia-vaile	14	t	933	5.335525088237981	f
+24	Skunkape	skunk-ape	6	t	831	8.132118708233415	f
+7	King Weeb	weeb	2	t	968	4.961196650863277	f
+2	The Edge	chris	2	t	938	5.654552827671102	f
+60	Eric Butler	mom-jeans	13	t	925	6.317493534440212	f
+86	Cooper	cooper	18	t	859	7.3625335948923905	f
+77	Lirik	lirik	16	t	828	7.633629670367376	f
+64	Gerard Way	chemical	14	t	833	8.650376299932919	f
+98	D-Day	normandy	11	t	852	7.545499534662579	f
+58	Marshall Mathers	eminem	13	t	918	5.6013673292691255	f
+39	Counter-Terrorist	csgo-ct	9	t	836	8.272331223174598	f
+48	Great Library of Alexandria	burning-alexandrian-library	11	t	867	7.416336984019077	f
+70	Tyler	tyler	14	t	969	5.495391949538094	f
+80	Rubius	rubius	16	t	768	10.302037368586031	f
+72	Anri du Toit	yolandi	14	t	905	6.745657188062683	f
+74	Clint Stevens	clint-stevens	16	t	884	6.272855777310207	f
+63	Oliver Tree	tree	13	t	862	7.546141595767597	f
+88	James	end-of-the-world	18	t	971	4.915354262618321	f
+44	Evan MacMillan	trapper	9	t	952	5.408737889619516	f
+78	Ninja	ninja	16	t	819	9.101611609807527	f
+79	Pokimane	poki	16	t	946	5.906042871237577	f
+85	Walt & Jesse	bb	18	t	989	4.824117820887802	f
+81	Shroud	shroud	16	t	894	6.997734290386022	f
+95	Geralt	witcher	18	t	879	6.871319706747564	f
+83	Tfue	tfue	16	t	920	6.421056957343634	f
+89	Pablo Escobar	escobar	18	t	957	5.704718132655263	f
+92	Rick	rick	18	t	918	6.463116149156684	f
+94	Joyce	stranger-wall	18	t	766	11.124581842542955	f
+75	Corinna Komf	corinna-kopf	16	t	923	6.358649715145782	f
+91	Dr. Fujika	fujika	18	t	757	11.526099539584653	f
+115	Flail Build	flail	23	t	750	11.85185185185185	f
+116	Efficiency	recruitment	23	t	768	11.03789718062789	f
+117	Decisions	resuscitate	23	t	900	6.8587105624142675	f
+118	Bubbling	swamp-bubbles	23	t	850	8.141664970486465	f
+119	Vagrants	yeoman-coins	23	t	892	7.044909868888477	f
+120	Quin69	quin	24	t	782	10.455618900620614	f
+84	72hrs	tom	16	t	809	8.498982772805558	f
+103	Kyōkotsu	kyoukotsu	20	t	972	5.263176723727691	f
+23	Loch Ness Monster	nessy	6	t	879	6.62591543150658	f
+46	Bataille Lizaine	bataille-lizaine	11	t	953	4.6214822506133775	f
+35	Tracer	tracer	8	t	904	6.3168634582602445	f
+21	Jersey Devil	jersey-devil	6	t	771	10.54589913755295	f
+11	Rainbow Belly Pipefish	indian-royal-green-pipe	4	t	993	4.936271087461144	f
+61	Max Bemis	say-anything	13	t	972	5.263176723727691	f
+10	Spotted Blue Eye	gertrudes-rainbow	4	t	957	5.324403590478246	f
+99	Caste Separation Protest	ghandi-caste-seperation	11	t	807	8.562328968549142	f
+67	Gustav Elijah Åhr	lil-peep	14	t	781	10.14597168297228	f
+76	King Gothalion	gothalion	16	t	985	4.883127786353044	f
+41	The Knight	hallow	9	t	839	8.183910382858077	f
+4	NZ Journey	lags-journey	2	t	819	8.191450448826775	f
+101	Galaxy Rasbora	celestial-pearl-danio	19	t	777	10.658766491267498	f
+102	Kejōrō	kejourou	20	t	944	5.943660866008697	f
+104	Tesso	tesso	20	t	888	7.140540833017094	f
+105	Spicy Madlads	spicy	21	t	827	8.840024642947737	f
+106	Brand	brand	22	t	943	5.962589708071453	f
+107	Fizz	fizz	22	t	985	5.231922628235404	f
+108	Heimerdinger	heimerdinger	22	t	944	5.943660866008697	f
+109	Jinx	jinx	22	t	952	5.795076310306625	f
+110	Riven	riven	22	t	827	8.840024642947737	f
+111	Singed	singed	22	t	879	7.362128257229533	f
+112	Teemo	teemo	22	t	933	6.156375101813055	f
+113	Vi	vi	22	t	791	10.102772044864368	f
+114	Abilities	ability	23	t	800	9.765625	f
+\.
+
+
+--
+-- Name: coins_id_seq; Type: SEQUENCE SET; Schema: public; Owner: gigalixir_admin
+--
+
+SELECT pg_catalog.setval('public.coins_id_seq', 120, true);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
