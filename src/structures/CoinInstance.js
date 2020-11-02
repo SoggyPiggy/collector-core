@@ -24,6 +24,7 @@ export default class Coin {
     this.conditionNatural = this.condition;
     this.value = 0;
     this.isAltered = false;
+    this.insertedAt = new Date();
     Object.assign(this, options);
   }
 

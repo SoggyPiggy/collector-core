@@ -17,6 +17,7 @@ export const cacheDiscordID = new Map();
  * @property {boolean} [isAdminEnabled]
  * @property {boolean} [settingSendNotifications]
  * @property {boolean} [discordiaTechDemoInvite]
+ * @property {Date} [insertedAt]
  */
 
 export default class Account {
@@ -29,6 +30,7 @@ export default class Account {
     this.isAdminEnabled = false;
     this.settingSendNotifications = true;
     this.discordiaTechDemoInvite = false;
+    this.insertedAt = new Date();
     Object.assign(this, options);
   }
 
