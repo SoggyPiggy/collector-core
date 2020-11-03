@@ -9,7 +9,7 @@ const execute = async function executeCommand() {
 
 const command = new Command({
   id: 'pp_compare',
-  title: 'Pp,Compare',
+  title: 'PP_Compare',
   description: 'Displays and compares two profiles\' stats',
   aliases: ['pp', 'ppcompare'],
   onExecute: execute,
