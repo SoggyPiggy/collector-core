@@ -72,9 +72,9 @@ export default class Account {
    * @returns {Account}
    */
   static async new(options) {
-    const account = new Account(collection(), options);
+    const account = new Account(options);
     updateCaches(account);
-    return new Account(await insertOne(account));
+    return new Account(await insertOne(collection(), account));
   }
 
   /**
