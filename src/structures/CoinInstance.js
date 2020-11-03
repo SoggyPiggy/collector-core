@@ -13,7 +13,7 @@ export const processConditionRoll = function processCoinInstanceConditionRoll(ro
   return (((2 * roll - 1) ** 2.2) / 2) + 0.5;
 };
 
-export default class Coin {
+export default class CoinInstance {
   constructor(options = {}) {
     this._id = undefined;
     this._coinID = undefined;
