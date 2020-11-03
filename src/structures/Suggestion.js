@@ -30,7 +30,6 @@ export default class Suggestion {
   static get collection() { return collection; }
 
   /**
-   * Create a new Suggestion
    * @param {import('./Account').default} account
    * @param {string} content
    * @returns {Suggestion}
@@ -46,7 +45,6 @@ export default class Suggestion {
   }
 
   /**
-   * Get all suggestions from an Account
    * @param {import('./Account').default} account
    * @returns {Suggestion[]}
    */
@@ -55,7 +53,6 @@ export default class Suggestion {
   }
 
   /**
-   * Get all suggestions that match the query
    * @param {SuggestionOptions} query
    * @param {import('mongodb').FindOneOptions} options
    * @returns {Suggestion[]}
@@ -63,6 +60,5 @@ export default class Suggestion {
   static async all(query = {}, options = {}) {
     const documents = await ((await collection).find(query, options).toArray());
     return documents.map((suggestion) => new Suggestion(suggestion));
-    // return whateverTheFuckThisIs.map();
   }
 }
