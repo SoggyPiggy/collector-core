@@ -68,5 +68,4 @@ export default class Coin {
   static async find(query = {}) {
     return new Coin(await (await collection).findOne(query));
   }
-  }
 }
