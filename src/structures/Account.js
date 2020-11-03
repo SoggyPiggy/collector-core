@@ -86,10 +86,20 @@ export default class Account {
   }
 
   /**
-   * @param {import('mongodb').ObjectID|string} id
+   * @param {string} id
    * @returns {Account}
    */
-  static async getByID(id) {
+  static async getByDiscordID(id) {
+    const account = findFromCaches(id);
+    if (typeof account !== 'undefined') return account;
+    return Account.find({ discordID: id });
+  }
+
+  /**
+   * @param {import('mongodb').ObjectID} id
+   * @returns {Account}
+   */
+  static async getByObjectID(id) {
     const account = findFromCaches(id);
     if (typeof account !== 'undefined') return account;
     return Account.find({ _id: id });
