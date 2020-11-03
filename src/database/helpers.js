@@ -25,3 +25,16 @@ export const findOne = async function dbHelperFindOne(collection, query) {
       .then(resolve);
   });
 };
+
+export const findCursor = async function dbHelperFindCursor(collection, query = {}, options = {}) {
+  collection = await collection;
+  return new Promise((resolve, reject) => {
+    collection.find(query, options)
+      .catch(reject)
+      .then(resolve);
+  });
+};
+
+export const findArray = async function dbHelperFindArray(collection, query = {}, options = {}) {
+  return (await findCursor(collection, query, options)).toArray();
+};
