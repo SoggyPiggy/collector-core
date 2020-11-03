@@ -19,8 +19,8 @@ const processMessage = async function processMessageFromClientEvent(message) {
   const input = content.toLowerCase().replace(/^>/g, '');
   const account = await Account.find({ discordID: author.id });
   process(input, account)
-    .then((...replyData) => send(...replyData))
-    .catch((error) => send(error, 'reply', { message }));
+    .then((result) => send(result, author, channel))
+    .catch((error) => send(error.message, author, channel));
 };
 
 client.on('message', processMessage);
