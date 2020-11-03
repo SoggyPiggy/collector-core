@@ -2,7 +2,18 @@ import { database } from '../database';
 
 const collection = (async () => (await database()).collection('series'))();
 
+/**
+ * @typedef {Object} SeriesOptions
+ * @property {import('mongodb').ObjectID} [_id]
+ * @property {import('mongodb').ObjectID} [_seriesID]
+ * @property {string} [name]
+ * @property {string} [directory]
+ */
+
 export default class Series {
+  /**
+   * @param {SeriesOptions} options
+   */
   constructor(options = {}) {
     this._id = undefined;
     this._seriesID = undefined;
@@ -13,6 +24,11 @@ export default class Series {
 
   static get collection() { return collection; }
 
+  /**
+   * @param {SeriesOptions} options
+   * @param {Series|null} series
+   * @returns {Series}
+   */
   static async new(options, series) {
     const newSeries = new Series(options);
     if (typeof series !== 'undefined') {
