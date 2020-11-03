@@ -3,6 +3,7 @@ import Coin from './Coin';
 import CoinInstance from './CoinInstance';
 import Series from './Series';
 import Setting from './Setting';
+import Suggestion from './Suggestion';
 
 export {
   Account,
@@ -10,4 +11,5 @@ export {
   CoinInstance,
   Series,
   Setting,
+  Suggestion,
 };
