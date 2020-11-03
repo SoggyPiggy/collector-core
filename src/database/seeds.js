@@ -22,30 +22,30 @@ export const generate = async function generateSeedFile(data) {
   });
 };
 
-const runSeeds = function runSeedsRecursive(seeds) {
+const runSeeds = async function runSeedsRecursive(seeds) {
   if (seeds.length <= 0) return;
   const [seed, ...tail] = seeds;
-  seed.run().then(() => runSeeds(tail)).catch();
+  await seed.run();
+  runSeeds(tail);
 };
+
+const settingSeedVersion = 'seed_version';
 
 export const update = async function updateDatabaseWithNewSeeds() {
   const path = join(process.cwd(), '/src/database/seeds/');
-  const currentVersion = await Setting.get('seed_version', 0);
+  const currentVersion = await Setting.get(settingSeedVersion, 0);
   let latestVersion = currentVersion;
-  return new Promise((resolve) => {
-    Promise.all(
-      fs.readdirSync(path).map((file) => import(join(path, file))),
-    ).then((unfilteredSeeds) => {
-      const seeds = unfilteredSeeds
-        .map((module) => module.default)
-        .filter(({ version }) => version > currentVersion)
-        .sort((a, b) => a.version > b.version);
-      if (seeds.length) {
-        runSeeds(seeds);
-        latestVersion = seeds[seeds.length - 1].version;
-        Setting.set('seed_version', latestVersion);
-      }
-      resolve({ seeds, old: currentVersion, new: latestVersion });
-    }).catch();
-  });
+  const unfilteredSeeds = await Promise.all(
+    fs.readdirSync(path).map((file) => import(join(path, file))),
+  );
+  const seeds = unfilteredSeeds
+    .map((module) => module.default)
+    .filter(({ version }) => version > currentVersion)
+    .sort((a, b) => a.version > b.version);
+  if (seeds.length > 0) {
+    await runSeeds(seeds);
+    latestVersion = seeds[seeds.length - 1].version;
+    await Setting.set(settingSeedVersion, latestVersion);
+  }
+  return { seeds, old: currentVersion, new: latestVersion };
 };
