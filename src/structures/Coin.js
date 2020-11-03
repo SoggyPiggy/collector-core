@@ -2,6 +2,7 @@ import random from '../utils/random';
 import {
   database,
   insertOne,
+  findOne,
 } from '../database';
 
 const collection = (async () => (await database()).collection('coins'))();
@@ -69,6 +70,6 @@ export default class Coin {
    * @returns {Coin}
    */
   static async find(query = {}) {
-    return new Coin((await collection).findOne(query));
+    return new Coin(await findOne(collection, query));
   }
 }
