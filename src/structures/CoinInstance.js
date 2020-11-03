@@ -13,6 +13,19 @@ export const processConditionRoll = function processCoinInstanceConditionRoll(ro
   return (((2 * roll - 1) ** 2.2) / 2) + 0.5;
 };
 
+/**
+ * @typedef {Object} CoinInstanceOptions
+ * @property {import('mongodb').ObjectID} [_id]
+ * @property {import('mongodb').ObjectID} [_coinID]
+ * @property {import('mongodb').ObjectID} [_accountID]
+ * @property {number} [conditionRoll]
+ * @property {number} [condition]
+ * @property {number} [conditionNatural]
+ * @property {number} [value]
+ * @property {boolean} [isAltered]
+ * @property {Date} [insertedAt]
+ */
+
 export default class CoinInstance {
   constructor(options = {}) {
     this._id = undefined;
@@ -29,7 +42,13 @@ export default class CoinInstance {
 
   static get collection() { return collection; }
 
-  static async new({ options, account, coin }) {
+  /**
+   * @param {CoinInstanceOptions} options
+   * @param {import('./Account').default} account
+   * @param {import('./Coin').default} coin
+   * @returns {CoinInstance}
+   */
+  static async new(options, account, coin) {
     const coinInstance = new CoinInstance({
       ...options,
       _accountID: account._id,
