@@ -1,9 +1,4 @@
-import {
-  database,
-  insertOne,
-  findOne,
-  updateOne,
-} from '../database';
+import { database } from '../database';
 
 const collection = (async () => (await database()).collection('accounts'))();
 
@@ -70,7 +65,9 @@ export default class Account {
    * @returns {Account}
    */
   static async new(options) {
-    const account = new Account(await insertOne(collection, new Account(options)));
+    const account = new Account(options);
+    const { insertedAt } = await (await collection).insertOne(account);
+    account._id = insertedAt;
     updateCaches(account);
     return account;
   }
@@ -110,7 +107,7 @@ export default class Account {
    * @returns {Account}
    */
   static async find(params) {
-    const account = new Account(await findOne(collection, params));
+    const account = new Account(await (await collection).findOne(params));
     updateCaches(account);
     return account;
   }
@@ -119,8 +116,9 @@ export default class Account {
    * @param {AccountOptions} account
    */
   static async update(account) {
-    const accountUpdated = (await updateOne(collection, account));
-    updateCaches(accountUpdated);
-    return accountUpdated;
+    (await collection).updateOne(
+      { _id: account._id },
+      { $set: account },
+    );
   }
 }
