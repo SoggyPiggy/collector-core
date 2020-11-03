@@ -2,7 +2,7 @@ import { database } from '../database';
 import random from '../utils/random';
 
 export const dbCollection = async function getDatabaseCollectionCoin() {
-  return (await database()).collection('coinInstances');
+  return (await database()).collection('coin_instances');
 };
 
 export const generateConditionRoll = function generateCoinInstanceCoditionRoll() {
