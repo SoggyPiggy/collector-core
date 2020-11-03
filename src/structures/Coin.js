@@ -12,6 +12,7 @@ const collection = (async () => (await database()).collection('coins'))();
  * @property {ObjectID} [_id]
  * @property {ObjectID} [_seriesID]
  * @property {string} [name]
+ * @property {string} [flavorText]
  * @property {string} [directory]
  * @property {string} [directoryTails]
  * @property {number} [weight]
@@ -29,6 +30,7 @@ export default class Coin {
     this._id = undefined;
     this._seriesID = undefined;
     this.name = undefined;
+    this.flavorText = undefined;
     this.directory = '_coin';
     this.directoryTails = '_coin';
     this.weight = (() => random.integer(750, 1000))();
@@ -48,9 +50,23 @@ export default class Coin {
    */
   static async new(options, series) {
     const coin = new Coin({ ...options, _seriesID: series._id });
-    const { insertedId } = (await collection).insertOne(coin);
+    const { insertedId } = await (await collection).insertOne(coin);
     coin._id = insertedId;
     return coin;
+  }
+
+  /**
+   * @param {CoinOptions[]} options
+   * @param {import('./Series').default} series
+   * @returns {Coin[]}
+   */
+  static async newBulk(options, series) {
+    const coins = options.map((option) => new Coin({ ...option, _seriesID: series._id }));
+    const results = await (await collection).bulkWrite(coins.map((coin) => ({ insertOne: coin })));
+    return coins.map((coin, index) => {
+      const { _id } = results.result.insertedIds[`${index}`];
+      return new Coin({ ...coin, _id });
+    });
   }
 
   /**

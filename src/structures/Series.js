@@ -34,7 +34,7 @@ export default class Series {
     if (typeof series !== 'undefined') {
       newSeries._seriesID = series._id;
     }
-    const { insertedId } = (await collection).insertOne(newSeries);
+    const { insertedId } = await (await collection).insertOne(newSeries);
     newSeries._id = insertedId;
     return newSeries;
   }
