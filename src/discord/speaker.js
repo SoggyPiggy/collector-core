@@ -57,9 +57,19 @@ const resolveContent = function resolveContent(content) {
   }
 };
 
-export const send = function sendMessage(content, destination) {
+/**
+ * @param {*} message
+ * @param {import('discord.js').User} user
+ */
+const appendUser = function appendUserToMessage(message, user) {
+  if (typeof message === 'string') return `${user}, ${message}`;
+  if (message instanceof MessageEmbed) return { content: `${user}`, embed: message };
+  return message;
+};
+
+export const send = function sendMessage(content, user, destination) {
   const message = resolveContent(content);
-  destination.send(message);
+  destination.send(appendUser(message, user));
 };
 
 export const notify = function sendNotification() {};
