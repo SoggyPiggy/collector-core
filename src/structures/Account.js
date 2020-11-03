@@ -1,7 +1,7 @@
 import {
   database,
   insertOne,
-  fineOne,
+  findOne,
   updateOne,
 } from '../database';
 
@@ -100,7 +100,7 @@ export default class Account {
    * @returns {Account}
    */
   static async find(params) {
-    const account = new Account(await fineOne(collection, params));
+    const account = new Account(await findOne(collection, params));
     updateCaches(account);
     return account;
   }

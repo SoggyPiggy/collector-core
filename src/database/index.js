@@ -2,7 +2,7 @@ import { client, database } from './client';
 import {
   insertOne,
   updateOne,
-  fineOne,
+  findOne,
 } from './helpers';
 
 export {
@@ -10,5 +10,5 @@ export {
   database,
   insertOne,
   updateOne,
-  fineOne,
+  findOne,
 };

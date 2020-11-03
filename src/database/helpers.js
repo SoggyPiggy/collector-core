@@ -17,10 +17,10 @@ export const updateOne = async function dbHelperUpdateOne(collection, obj, optio
   });
 };
 
-export const fineOne = async function dbHelperFindOne(collection, query) {
+export const findOne = async function dbHelperFindOne(collection, query) {
   collection = await collection;
   return new Promise((resolve, reject) => {
-    collection.fineOne(query)
+    collection.findOne(query)
       .catch(reject)
       .then(resolve);
   });
