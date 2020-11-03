@@ -49,7 +49,7 @@ export default class AccountLogger extends Logger {
     return new AccountLogger({
       note,
       _accountID: account._id,
-      transaction: 'scrap-withdrawl',
+      transaction: 'scrap-deposit',
     }).setBefore(account);
   }
 }
