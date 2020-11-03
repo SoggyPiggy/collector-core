@@ -19,6 +19,7 @@ export default class Coin {
   constructor(options = {}) {
     this._id = undefined;
     this._coinID = undefined;
+    this._accountID = undefined;
     this.conditionRoll = generateConditionRoll();
     this.condition = processConditionRoll(this.conditionRoll);
     this.conditionNatural = this.condition;
