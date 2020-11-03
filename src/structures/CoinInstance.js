@@ -28,4 +28,15 @@ export default class CoinInstance {
   }
 
   static get collection() { return collection; }
+
+  static async new({ options, account, coin }) {
+    const coinInstance = new CoinInstance({
+      ...options,
+      _accountID: account._id,
+      _coinID: coin._id,
+    });
+    const { insertedAt } = await (await collection).insertOne(coinInstance);
+    coinInstance._id = insertedAt;
+    return coinInstance;
+  }
 }
