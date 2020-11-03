@@ -12,4 +12,14 @@ export default class Series {
   }
 
   static get collection() { return collection; }
+
+  static async new(options, series) {
+    const newSeries = new Series(options);
+    if (typeof series !== 'undefined') {
+      newSeries._seriesID = series._id;
+    }
+    const { insertedId } = (await collection).insertOne(newSeries);
+    newSeries._id = insertedId;
+    return newSeries;
+  }
 }
