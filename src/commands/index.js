@@ -17,3 +17,11 @@ export {
   commandsRegistered,
   commandsUnregistered,
 };
+
+/**
+ * @typedef {Object} CommandExecuteArgs
+ * @property {import('../structures').Account} [account]
+ * @property {string} [input]
+ * @property {string} [inputCommand]
+ * @property {string[]} [inputArguments]
+ */

@@ -5,6 +5,9 @@ export const generateHash = function generateSecureHashForCodes(code) {
   return crypto.createHmac('sha256', process.env.HASH_KEY).update(code).digest('hex');
 };
 
+/**
+ * @param {import('../').CommandExecuteArgs} commandExecuteArgs
+ */
 const execute = async function executeCommand({ inputArguments }) {
   const [code] = inputArguments;
   const hash = generateHash(code);
