@@ -2,7 +2,7 @@ import Logger from './Logger';
 import {
   database,
   insertOne,
-} from '../../database';
+} from '../database';
 
 const collection = (async () => (await database()).collection('account_logs'))();
 
