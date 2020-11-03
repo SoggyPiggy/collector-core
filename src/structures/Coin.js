@@ -46,7 +46,6 @@ export default class Coin {
   static get collection() { return collection; }
 
   /**
-   * Create a new coin
    * @param {import('./Series').default} series
    * @param {CoinOptions} options
    * @returns {Coin}
@@ -56,16 +55,14 @@ export default class Coin {
   }
 
   /**
-   * Get one coin based on its _id property
    * @param {ObjectID} id
    * @returns {Coin}
    */
-  static async get(id) {
+  static async getByObjectID(id) {
     return Coin.find({ _id: id });
   }
 
   /**
-   * Get one coin based on its properties
    * @param {CoinOptions} query
    * @returns {Coin}
    */
