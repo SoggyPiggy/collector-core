@@ -42,11 +42,11 @@ export default class Coin {
   static get collection() { return collection; }
 
   /**
-   * @param {import('./Series').default} series
    * @param {CoinOptions} options
+   * @param {import('./Series').default} series
    * @returns {Coin}
    */
-  static async new(series, options) {
+  static async new(options, series) {
     const coin = new Coin({ ...options, _seriesID: series._id });
     const { insertedId } = (await collection).insertOne(coin);
     coin._id = insertedId;
