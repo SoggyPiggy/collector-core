@@ -1,10 +1,13 @@
 import Command from '../Command';
+import { commandsAdmin, commandsRegistered, commandsUnregistered } from '..';
 
 /**
  * @param {import('../').CommandExecuteArgs} commandExecuteArgs
  */
-const execute = async function executeCommand() {
-  throw new Error('Command execute function not defined');
+const execute = async function executeCommand({ account }) {
+  if (typeof account === 'undefined') return commandsUnregistered;
+  if (account.isAdmin) return commandsAdmin;
+  return commandsRegistered;
 };
 
 const command = new Command({
