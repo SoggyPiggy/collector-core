@@ -1,8 +1,6 @@
 import { database } from '../database';
 
-export const dbCollection = async function getDatabaseCollectionCoin() {
-  return (await database()).collection('series');
-};
+const collection = (async () => (await database()).collection('series'))();
 
 export default class Series {
   constructor(options = {}) {
@@ -13,5 +11,5 @@ export default class Series {
     Object.assign(this, options);
   }
 
-  static get collection() { return dbCollection(); }
+  static get collection() { return collection; }
 }

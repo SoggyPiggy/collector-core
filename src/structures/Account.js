@@ -5,9 +5,7 @@ import {
   updateOne,
 } from '../database';
 
-export const collection = async function getDatabaseCollectionCoin() {
-  return (await database()).collection('accounts');
-};
+const collection = (async () => (await database()).collection('accounts'))();
 
 export const cacheAccount = new Map();
 export const cacheDiscordID = new Map();
@@ -65,7 +63,7 @@ export default class Account {
     return Account.update(this);
   }
 
-  static get collection() { return collection(); }
+  static get collection() { return collection; }
 
   /**
    * @param {AccountOptions} options
@@ -74,7 +72,7 @@ export default class Account {
   static async new(options) {
     const account = new Account(options);
     updateCaches(account);
-    return new Account(await insertOne(collection(), account));
+    return new Account(await insertOne(collection, account));
   }
 
   /**
@@ -102,7 +100,7 @@ export default class Account {
    * @returns {Account}
    */
   static async find(params) {
-    const account = new Account(await fineOne(collection(), params));
+    const account = new Account(await fineOne(collection, params));
     updateCaches(account);
     return account;
   }
@@ -111,7 +109,7 @@ export default class Account {
    * @param {AccountOptions} account
    */
   static async update(account) {
-    const accountUpdated = (await updateOne(collection(), account));
+    const accountUpdated = (await updateOne(collection, account));
     updateCaches(accountUpdated);
     return accountUpdated;
   }

@@ -1,9 +1,7 @@
 import { database } from '../database';
 import random from '../utils/random';
 
-export const dbCollection = async function getDatabaseCollectionCoin() {
-  return (await database()).collection('coin_instances');
-};
+const collection = (async () => (await database()).collection('coin_instances'))();
 
 export const generateConditionRoll = function generateCoinInstanceCoditionRoll() {
   return random.real(0, 1, true);
@@ -29,5 +27,5 @@ export default class Coin {
     Object.assign(this, options);
   }
 
-  static get collection() { return dbCollection(); }
+  static get collection() { return collection; }
 }

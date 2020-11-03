@@ -1,9 +1,7 @@
 import random from '../utils/random';
-import { database } from '../database';
+import { database, insertOne } from '../database';
 
-export const dbCollection = async function getDatabaseCollectionCoin() {
-  return (await database()).collection('coins');
-};
+const collection = (async () => (await database()).collection('coins'))();
 
 /**
  * @typedef {import('bson').ObjectID} ObjectID
@@ -41,7 +39,7 @@ export default class Coin {
     Object.assign(this, options);
   }
 
-  static get collection() { return dbCollection(); }
+  static get collection() { return collection; }
 
   /**
    * Create a new coin
@@ -50,13 +48,8 @@ export default class Coin {
    * @returns {Coin}
    */
   static async new(series, options) {
-    const collection = await dbCollection();
     const coin = new Coin({ ...options, _seriesID: series._id });
-    return new Promise((resolve, reject) => {
-      collection.insertOne(coin)
-        .catch(reject)
-        .then(({ insertedId }) => resolve(new Coin({ ...coin, _id: insertedId })));
-    });
+    return new Coin(await insertOne(collection, coin));
   }
 
   /**
@@ -74,11 +67,6 @@ export default class Coin {
    * @returns {Coin}
    */
   static async find(query = {}) {
-    const collection = await dbCollection();
-    return new Promise((resolve, reject) => {
-      collection.findOne(query)
-        .catch(reject)
-        .then((coin) => resolve(new Coin(coin)));
-    });
+    return new Coin((await collection).findOne(query));
   }
 }

@@ -1,8 +1,9 @@
-import { database } from '../database';
+import {
+  database,
+  insertOne,
+} from '../database';
 
-export const dbCollection = async function getDatabaseCollectionCoin() {
-  return (await database()).collection('suggestions');
-};
+const collection = (async () => (await database()).collection('suggestions'))();
 
 /**
  * @typedef {Object} SuggestionOptions
@@ -26,7 +27,7 @@ export default class Suggestion {
     Object.assign(this, options);
   }
 
-  static get collection() { return dbCollection(); }
+  static get collection() { return collection; }
 
   /**
    * Create a new Suggestion
@@ -35,18 +36,13 @@ export default class Suggestion {
    * @returns {Suggestion}
    */
   static async new(account, content) {
-    const collection = await dbCollection();
     const { _id, discordUsername } = account;
     const suggestion = new Suggestion({
       content,
       discordUsername,
       _accountID: _id,
     });
-    return new Promise((resolve, reject) => {
-      collection.insertOne(suggestion)
-        .catch(reject)
-        .then(({ insertedId }) => resolve(new Suggestion({ ...suggestion, _id: insertedId })));
-    });
+    return new Suggestion(await insertOne(collection, suggestion));
   }
 
   /**
@@ -65,8 +61,7 @@ export default class Suggestion {
    * @returns {Suggestion[]}
    */
   static async all(query = {}, options = {}) {
-    const collection = await dbCollection();
-    const documents = await (collection.find(query, options).toArray());
+    const documents = await ((await collection).find(query, options).toArray());
     return documents.map((suggestion) => new Suggestion(suggestion));
     // return whateverTheFuckThisIs.map();
   }
