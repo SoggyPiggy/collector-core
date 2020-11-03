@@ -1,5 +1,8 @@
 import random from '../utils/random';
-import { database, insertOne } from '../database';
+import {
+  database,
+  insertOne,
+} from '../database';
 
 const collection = (async () => (await database()).collection('coins'))();
 
@@ -48,8 +51,7 @@ export default class Coin {
    * @returns {Coin}
    */
   static async new(series, options) {
-    const coin = new Coin({ ...options, _seriesID: series._id });
-    return new Coin(await insertOne(collection, coin));
+    return new Coin(await insertOne(collection, new Coin({ ...options, _seriesID: series._id })));
   }
 
   /**
