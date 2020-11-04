@@ -29,6 +29,7 @@ export const process = async function processInputForCommand(input, account) {
   const command = findCommand(inputCommand, getList(account));
   if (typeof command === 'undefined') throw new Error(`Command not found: ${inputCommand}`);
   return command.execute({
+    command,
     input,
     inputCommand,
     inputArguments,
