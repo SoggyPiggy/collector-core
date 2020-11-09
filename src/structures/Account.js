@@ -66,8 +66,8 @@ export default class Account {
    */
   static async new(options) {
     const account = new Account(options);
-    const { insertedAt } = await (await collection).insertOne(account);
-    account._id = insertedAt;
+    const { insertedId } = await (await collection).insertOne(account);
+    account._id = insertedId;
     updateCaches(account);
     return account;
   }
