@@ -1,4 +1,5 @@
 import { MessageEmbed } from 'discord.js';
+import client from './client';
 import { Command } from '../commands';
 import { AccountLogger } from '../loggers';
 import { Account } from '../structures';
@@ -51,6 +52,28 @@ const formatAccountCreated = async function formatAccountCreated(logger) {
   return embed;
 };
 
+const formatAccount = async function formatAccount(account) {
+  const user = client.users.fetch(account.discordID);
+  const embed = new MessageEmbed();
+  embed.setTitle(`Profile: ${(await user).username}`);
+  embed.setThumbnail((await user).avatarURL({ format: 'png', dynamic: true, size: 128 }));
+  embed.setDescription([
+    `**Collection**: ${undefined}`,
+    `**Collection Unique**: ${undefined}`,
+    `**Collection Value**: ${undefined}`,
+    `**Collection Avg Value**: ${undefined}`,
+    `**Collection MVC**: ${undefined}`,
+    `**Collection LVC**: ${undefined}`,
+    '',
+    `**Coins Collected**: ${undefined}`,
+    `**Coins Scrapped**: ${undefined}`,
+    '',
+    `**Scrap**: ${undefined}`,
+    `**Scrap Collected**: ${undefined}`,
+    `**Scrap Used**: ${undefined}`,
+  ].join('\n'));
+};
+
 const resolveContent = function resolveContent(content) {
   switch (true) {
     case (typeof content === 'string'):
@@ -60,6 +83,8 @@ const resolveContent = function resolveContent(content) {
       return resolveContentArray(content);
     case (content instanceof Command):
       return formatCommand(content);
+    case (content instanceof Account):
+      return formatAccount(content);
     case (content instanceof AccountLogger && content.transaction === 'account-created'):
       return formatAccountCreated(content);
     default:
