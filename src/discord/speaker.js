@@ -37,9 +37,14 @@ const formatCommand = function formatCommand(command) {
   embed.setTitle(`Help Menu: ${command.title}`);
   embed.setDescription([
     command.description,
-    `\n**Aliases**\n\`${command.aliases.join('`, `')}\``,
-    // TODO: Add command.arguments here
-    `\n**Examples**\n${command.examples.join('\n')}`,
+    command.aliases.length <= 0 ? '' : `\n**Aliases**\n\`${command.aliases.join('`, `')}\``,
+    command.arguments.length <= 0 ? '' : `\n**Arguments**\n${
+      command.arguments.map((argument) => `\`${
+        argument.names
+          .map((argAlias) => (argAlias.length > 1 ? `--${argAlias}` : `-${argAlias}`))
+          .join('`, `')}\`\n${argument.help}`)
+    }`,
+    command.examples.length <= 0 ? '' : `\n**Examples**\n${command.examples.join('\n')}`,
   ].filter((section) => section !== '').join('\n'));
   return embed;
 };
