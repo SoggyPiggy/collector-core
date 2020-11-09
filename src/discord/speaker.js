@@ -23,9 +23,13 @@ const resolveContentArrayItem = function resolveContentArrayItem(item) {
 };
 
 const resolveContentArray = function resolveContentArray(content) {
-  const [options, ...items] = content;
-  const embed = new MessageEmbed({ ...options });
-  embed.setDescription(items.map(resolveContentArrayItem));
+  const [{ argv, embed: embedOptions }, ...items] = content;
+  const embed = new MessageEmbed({ ...embedOptions });
+  const maxPage = Math.ceil(items.length / 20);
+  const page = Math.min(argv.page, maxPage);
+  const pageItems = items.slice((page - 1) * 20, page * 20);
+  embed.setDescription(pageItems.map(resolveContentArrayItem));
+  embed.setFooter(`Page ${page} of ${maxPage}`);
   return embed;
 };
 
