@@ -68,4 +68,14 @@ export default class Command {
   parseArgs(args) {
     return this.parser.parse(['', '', ...args]);
   }
+
+  static get pageArg() {
+    return {
+      names: ['page', 'p'],
+      type: 'positiveInteger',
+      default: 1,
+      help: 'Which page to display. (20 items to a page)',
+      helpArg: 'PAGE',
+    };
+  }
 }
