@@ -1,3 +1,5 @@
+import dashdash from 'dashdash';
+
 /**
  * Options for a Command.
  * @typedef {Object} CommandOptions
@@ -13,9 +15,6 @@
  * users
  * @property {CommandArgumentOptions[]} [arguments] The options that will be used to create the
  * parser
- * @property {string[]} [argsStrict] The arg's main name
- * @property {string[]} [argsAliases] The arg's aliases
- * @property {string[]} [argsDescriptions] The arg's description
  * @property {function} [onExecute] The function that will be called when a command's execute
  * function is called
  */
@@ -58,12 +57,15 @@ export default class Command {
     this.registeredAccess = true;
     this.unregisteredAccess = false;
     this.arguments = [];
-    this.argsStrict = [];
-    this.argsAliases = [];
-    this.argsDescriptions = [];
     this.onExecute = async () => {};
     Object.assign(this, options);
+
+    this.parser = dashdash.createParser({ options: this.arguments });
   }
 
   execute(...data) { return this.onExecute(...data); }
+
+  parseArgs(args) {
+    return this.parser.parse(['', '', ...args]);
+  }
 }
