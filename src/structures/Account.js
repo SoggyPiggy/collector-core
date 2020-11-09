@@ -104,10 +104,12 @@ export default class Account {
 
   /**
    * @param {AccountOptions} params
-   * @returns {Account}
+   * @returns {Account|undefined}
    */
   static async find(params) {
-    const account = new Account(await (await collection).findOne(params));
+    const accountData = await (await collection).findOne(params);
+    if (accountData === null) return undefined;
+    const account = new Account(accountData);
     updateCaches(account);
     return account;
   }
