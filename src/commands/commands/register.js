@@ -1,3 +1,4 @@
+import { AccountLogger } from '../../loggers';
 import { Account } from '../../structures';
 import Command from '../Command';
 
@@ -7,10 +8,12 @@ import Command from '../Command';
 const execute = async function executeCommand({ account, discordUser }) {
   if (typeof account !== 'undefined') throw new Error('Account has already been registered');
   if (typeof discordUser !== 'undefined') {
-    return Account.new({
+    const newAccount = await Account.new({
       discordID: discordUser.id,
       discordUsername: discordUser.username,
     });
+    AccountLogger.newAccountCreationLog(newAccount).log();
+    return newAccount;
   }
   throw new Error('Register failed to create account');
 };
