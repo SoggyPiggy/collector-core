@@ -9,7 +9,7 @@ export default new MajorMinor({
       version: '0',
       notes: [
         ['Whats New', [
-          'I\'ve redone the whole bot in Javascript, because I\'ve lost my mind',
+          'I\'ve redone the whole bot in Javascript, because I have no control',
         ]],
         ['WIP Features', [
           'Additional ways of collecting coins',
