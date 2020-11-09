@@ -3,6 +3,7 @@ import client from './client';
 import { Command } from '../commands';
 import { AccountLogger } from '../loggers';
 import { Account } from '../structures';
+import { MajorMinor } from '../changelog';
 
 /**
  * @param {Command} command
@@ -83,6 +84,19 @@ const formatAccount = async function formatAccount(account) {
   ].join('\n'));
 };
 
+const formatMajorMinor = function formatMajorMinor(minor) {
+  const embed = new MessageEmbed();
+  embed.setTitle(`${minor.name}`);
+  embed.addFields(minor.patches.map((patch) => ({
+    name: `\`${minor.version}.${patch.version}\``,
+    value: patch.notes.map(([noteTitle, notes]) => [
+      `**${noteTitle}**`,
+      ...notes.map((note) => ` - ${note}`),
+    ].join('\n')),
+  })));
+  return embed;
+};
+
 const resolveContent = function resolveContent(content) {
   switch (true) {
     case (typeof content === 'string'):
@@ -94,6 +108,8 @@ const resolveContent = function resolveContent(content) {
       return formatCommand(content);
     case (content instanceof Account):
       return formatAccount(content);
+    case (content instanceof MajorMinor):
+      return formatMajorMinor(content);
     case (content instanceof AccountLogger && content.transaction === 'account-created'):
       return formatAccountCreated(content);
     default:

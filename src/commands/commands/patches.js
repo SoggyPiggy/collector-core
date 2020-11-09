@@ -1,10 +1,11 @@
 import Command from '../Command';
+import { getLatest } from '../../changelog';
 
 /**
  * @param {import('../').CommandExecuteArgs} commandExecuteArgs
  */
 const execute = async function executeCommand() {
-  throw new Error('Command execute function not defined');
+  return getLatest();
 };
 
 const command = new Command({
