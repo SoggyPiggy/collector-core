@@ -1,8 +1,5 @@
 import Logger from './Logger';
-import {
-  database,
-  insertOne,
-} from '../database';
+import { database } from '../database';
 
 const collection = (async () => (await database()).collection('account_logs'))();
 
@@ -13,7 +10,11 @@ export default class AccountLogger extends Logger {
     Object.assign(this, options);
   }
 
-  log() { return AccountLogger.log(this); }
+  async log() {
+    const { insertedId } = await (await collection).insertOne(this);
+    this._id = insertedId;
+    return this;
+  }
 
   static get collection() { return collection; }
 
@@ -26,7 +27,7 @@ export default class AccountLogger extends Logger {
   }
 
   static async log(logger) {
-    return new AccountLogger(await insertOne(collection, logger));
+    return logger.log();
   }
 
   static newAccountCreationLog(account, note) {
