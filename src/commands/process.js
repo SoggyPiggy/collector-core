@@ -24,11 +24,12 @@ export const split = function splitStringIntoComponents(input) {
  * @param {String} input The modified message content from a user
  * @param {Message} message The discord message
  */
-export const process = async function processInputForCommand(input, account) {
+export const process = async function processInputForCommand(input, account, passedData = {}) {
   const [inputCommand, ...inputArguments] = split(input);
   const command = findCommand(inputCommand, getList(account));
   if (typeof command === 'undefined') throw new Error(`Command not found: ${inputCommand}`);
   return command.execute({
+    ...passedData,
     command,
     input,
     inputCommand,
