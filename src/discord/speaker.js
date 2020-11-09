@@ -1,7 +1,7 @@
 import { MessageEmbed } from 'discord.js';
 import { Command } from '../commands';
-import {
-} from '../structures';
+import { AccountLogger } from '../loggers';
+import { Account } from '../structures';
 
 /**
  * @param {Command} command
@@ -43,6 +43,14 @@ const formatCommand = function formatCommand(command) {
   return embed;
 };
 
+const formatAccountCreated = async function formatAccountCreated(logger) {
+  const account = await Account.find({ _id: logger._accountID });
+  const embed = new MessageEmbed();
+  embed.setTitle('Account Created');
+  embed.setDescription(`${account.discordUsername || 'New account'} has been registered`);
+  return embed;
+};
+
 const resolveContent = function resolveContent(content) {
   switch (true) {
     case (typeof content === 'string'):
@@ -52,6 +60,8 @@ const resolveContent = function resolveContent(content) {
       return resolveContentArray(content);
     case (content instanceof Command):
       return formatCommand(content);
+    case (content instanceof AccountLogger && content.transaction === 'account-created'):
+      return formatAccountCreated(content);
     default:
       return 'Could not resolve item';
   }
@@ -67,8 +77,8 @@ const appendUser = function appendUserToMessage(message, user) {
   return message;
 };
 
-export const send = function sendMessage(content, user, destination) {
-  const message = resolveContent(content);
+export const send = async function sendMessage(content, user, destination) {
+  const message = await resolveContent(content);
   destination.send(appendUser(message, user));
 };
 
