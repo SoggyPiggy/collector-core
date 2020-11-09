@@ -1,3 +1,6 @@
+import MajorMinor from './MajorMinor';
+import Patch from './Patch';
+
 /* eslint-disable camelcase */
 import Version_0_5_X from './changes/version_0_5_X';
 import Version_0_4_X from './changes/version_0_4_X';
@@ -17,4 +20,9 @@ export const getList = function getChangeLogList() {
 
 export const getLatest = function getLatestChangeLog() {
   return getList()[0];
+};
+
+export {
+  MajorMinor,
+  Patch,
 };
