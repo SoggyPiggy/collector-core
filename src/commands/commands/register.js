@@ -12,8 +12,7 @@ const execute = async function executeCommand({ account, discordUser }) {
       discordID: discordUser.id,
       discordUsername: discordUser.username,
     });
-    AccountLogger.newAccountCreationLog(newAccount).log();
-    return newAccount;
+    return AccountLogger.newAccountCreationLog(newAccount).log();
   }
   throw new Error('Register failed to create account');
 };
