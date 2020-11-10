@@ -10,7 +10,8 @@ const generateCommand = async function generateCommandFile(data) {
     fs.writeFile(file,
       `import Command from '../Command';
         
-        const execute = async function executeCommand({ message, account }) {
+        const execute = async function executeCommand() {
+          throw new Error('Command execute function not defined');
         };
         
         const command = new Command({
