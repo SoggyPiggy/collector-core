@@ -10,8 +10,8 @@ const execute = async function executeCommand() {
 const command = new Command({
   id: 'coins',
   title: 'Coins',
-  description: '',
-  aliases: ['coins'],
+  description: 'Displays a list of coins, or information about a coin',
+  aliases: ['c', 'coins'],
   isPublic: false,
   onExecute: execute,
 });
