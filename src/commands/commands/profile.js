@@ -10,7 +10,7 @@ const execute = async function executeCommand() {
 const command = new Command({
   id: 'profile',
   title: 'Profile',
-  description: 'Displays stats of a user',
+  description: 'Displays the account stats of you or someone else',
   aliases: ['p', 'profile'],
   onExecute: execute,
 });
