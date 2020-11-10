@@ -82,6 +82,8 @@ export default class Coin {
    * @returns {Coin}
    */
   static async find(query = {}) {
-    return new Coin(await (await collection).findOne(query));
+    const coin = await (await collection).findOne(query);
+    if (coin === null) return undefined;
+    return new Coin(coin);
   }
 }
