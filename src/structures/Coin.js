@@ -95,4 +95,36 @@ export default class Coin {
     if (coin === null) return undefined;
     return new Coin(coin);
   }
+
+  /**
+   * @param {CoinOptions} query
+   * @param {object} options
+   * @returns {Coin[]}
+   */
+  static async all(query = {}, options = {}) {
+    const cursor = await (await collection).find(query, options);
+    cursor.map((document) => new Coin(document));
+    return cursor.toArray();
+  }
+
+  /**
+   * @param {import('./Series').default} series
+   * @returns {Coin[]}
+   */
+  static async allFromSeries(series) {
+    const Series = (await import('./Series')).default;
+    return Series.all({ _seriesID: series._id });
+  }
+
+  /**
+   * @param {import('./Series').default} series
+   * @returns {Coin[]}
+   */
+  static async allFromSeriesRecursive(series) {
+    if (typeof series === 'undefined') return [];
+    return [
+      ...(await this.allFromSeries(series)),
+      ...(await this.allFromSeriesRecursive(await series.series)),
+    ];
+  }
 }
