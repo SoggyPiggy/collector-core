@@ -18,9 +18,7 @@ export const commandsAll = [
   require('./commands/pp_compare').default,
   require('./commands/collection').default,
   require('./commands/coins').default,
-  require('./commands/coin').default,
-  require('./commands/sets').default,
-  require('./commands/set').default,
+  require('./commands/series').default,
   require('./commands/scrap').default,
   require('./commands/repair').default,
 ];

@@ -8,10 +8,11 @@ const execute = async function executeCommand() {
 };
 
 const command = new Command({
-  id: 'sets',
-  title: 'Sets',
-  description: 'Displays a list of sets',
-  aliases: ['sets'],
+  id: 'series',
+  title: 'Series',
+  description: 'Displays a list of series, or information about a series',
+  aliases: ['s', 'series'],
+  examples: ['series'],
   onExecute: execute,
 });
 
