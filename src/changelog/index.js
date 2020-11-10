@@ -1,26 +1,17 @@
 import MajorMinor from './MajorMinor';
 import Patch from './Patch';
 
-/* eslint-disable camelcase */
-import Version_0_5_X from './changes/version_0_5_X';
-import Version_0_4_X from './changes/version_0_4_X';
-import Version_0_3_X from './changes/version_0_3_X';
-import Version_0_2_X from './changes/version_0_2_X';
-import Version_0_1_X from './changes/version_0_1_X';
+/* eslint-disable global-require */
+export const versions = [
+  require('./changes/version_0_5_X').default,
+  require('./changes/version_0_4_X').default,
+  require('./changes/version_0_3_X').default,
+  require('./changes/version_0_2_X').default,
+  require('./changes/version_0_1_X').default,
+];
+/* eslint-enable global-require */
 
-export const getList = function getChangeLogList() {
-  return [
-    Version_0_5_X,
-    Version_0_4_X,
-    Version_0_3_X,
-    Version_0_2_X,
-    Version_0_1_X,
-  ];
-};
-
-export const getLatest = function getLatestChangeLog() {
-  return getList()[0];
-};
+export const latest = versions[0];
 
 export {
   MajorMinor,
