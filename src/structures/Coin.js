@@ -41,6 +41,15 @@ export default class Coin {
     Object.assign(this, options);
   }
 
+  get series() {
+    return new Promise((resolve, reject) => {
+      import('./Series').then((module) => {
+        const Series = module.default;
+        resolve(Series.find({ _id: this._seriesID }));
+      }).catch(reject);
+    });
+  }
+
   static get collection() { return collection; }
 
   /**
