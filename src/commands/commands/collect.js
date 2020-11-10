@@ -10,7 +10,7 @@ const execute = async function executeCommand() {
 const command = new Command({
   id: 'collect',
   title: 'Collect',
-  description: 'Collect your daily coin. Resets at 8pm EST',
+  description: 'Collect your daily coin',
   aliases: ['collect'],
   onExecute: execute,
 });
