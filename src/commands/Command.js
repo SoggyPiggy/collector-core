@@ -74,7 +74,7 @@ export default class Command {
       names: ['page', 'p'],
       type: 'positiveInteger',
       default: 1,
-      help: 'Which page to display. (20 items to a page)',
+      help: 'Which page to display (20 items to a page)',
       helpArg: 'PAGE',
     };
   }
