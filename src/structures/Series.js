@@ -22,6 +22,10 @@ export default class Series {
     Object.assign(this, options);
   }
 
+  get series() {
+    return Series.find({ _id: this._seriesID });
+  }
+
   static get collection() { return collection; }
 
   /**
