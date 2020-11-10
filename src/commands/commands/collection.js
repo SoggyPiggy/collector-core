@@ -11,7 +11,7 @@ const command = new Command({
   id: 'collection',
   title: 'Collection',
   description: 'Displays a users collection of coins',
-  aliases: ['collection'],
+  aliases: ['col', 'collection'],
   onExecute: execute,
 });
 
