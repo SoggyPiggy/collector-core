@@ -38,4 +38,14 @@ export default class Series {
     newSeries._id = insertedId;
     return newSeries;
   }
+
+  /**
+   * @param {SeriesOptions} query
+   * @returns {Series|undefined}
+   */
+  static async find(query = {}) {
+    const series = await (await collection).findOne(query);
+    if (series === null) return undefined;
+    return new Series(series);
+  }
 }
