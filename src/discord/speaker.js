@@ -47,7 +47,7 @@ const formatCommand = function formatCommand(command) {
       command.arguments.map((argument) => `\`${
         argument.names
           .map((argAlias) => (argAlias.length > 1 ? `--${argAlias}` : `-${argAlias}`))
-          .join('`, `')}\`\n${argument.help}`)
+          .join('`, `')}\`\n${argument.help}`).join('\n')
     }`,
     command.examples.length <= 0 ? '' : `\n**Examples**\n${command.examples.join('\n')}`,
   ].filter((section) => section !== '').join('\n'));
