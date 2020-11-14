@@ -26,7 +26,7 @@ const runSeeds = async function runSeedsRecursive(seeds) {
   if (seeds.length <= 0) return;
   const [seed, ...tail] = seeds;
   await seed.run();
-  runSeeds(tail);
+  await runSeeds(tail);
 };
 
 const settingSeedVersion = 'seed_version';
