@@ -18,6 +18,7 @@ export const processConditionRoll = function processCoinInstanceConditionRoll(ro
  * @property {import('mongodb').ObjectID} [_id]
  * @property {import('mongodb').ObjectID} [_coinID]
  * @property {import('mongodb').ObjectID} [_accountID]
+ * @property {number} [reference]
  * @property {number} [conditionRoll]
  * @property {number} [condition]
  * @property {number} [conditionNatural]
@@ -31,6 +32,7 @@ export default class CoinInstance {
     this._id = undefined;
     this._coinID = undefined;
     this._accountID = undefined;
+    this.reference = random.integer(0, 2176782336);
     this.conditionRoll = generateConditionRoll();
     this.condition = processConditionRoll(this.conditionRoll);
     this.conditionNatural = this.condition;
@@ -39,6 +41,8 @@ export default class CoinInstance {
     this.insertedAt = new Date();
     Object.assign(this, options);
   }
+
+  get ref() { return this.reference.toString(36).toUpperCase().padStart(6, '0'); }
 
   static get collection() { return collection; }
 
@@ -54,8 +58,19 @@ export default class CoinInstance {
       _accountID: account._id,
       _coinID: coin._id,
     });
-    const { insertedAt } = await (await collection).insertOne(coinInstance);
-    coinInstance._id = insertedAt;
-    return coinInstance;
+    try {
+      const { insertedId } = await (await collection).insertOne(coinInstance);
+      coinInstance._id = insertedId;
+      return coinInstance;
+    } catch (error) {
+      if (
+        error.code === 11000
+        && typeof error.keyPattern.reference !== 'undefined'
+      ) {
+        delete coinInstance.reference;
+        return CoinInstance.new({ ...coinInstance }, account, coin);
+      }
+      throw error;
+    }
   }
 }
