@@ -26,7 +26,7 @@ export const split = function splitStringIntoComponents(input) {
  */
 export const process = async function processInputForCommand(input, account, passedData = {}) {
   const [inputCommand, ...inputArguments] = split(input);
-  const command = findCommand(inputCommand, getList(account));
+  const command = findCommand(inputCommand.toLowerCase(), getList(account));
   if (typeof command === 'undefined') throw new Error(`Command not found: ${inputCommand}`);
   return command.execute({
     ...passedData,
