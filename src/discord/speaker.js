@@ -2,8 +2,11 @@ import { MessageEmbed } from 'discord.js';
 import client from './client';
 import { Command } from '../commands';
 import { AccountLogger } from '../loggers';
-import { Account } from '../structures';
 import { MajorMinor } from '../changelog';
+import {
+  Account,
+  Suggestion,
+} from '../structures';
 
 /**
  * @param {Command} command
@@ -12,12 +15,22 @@ const formatListCommand = function formatListCommand(command) {
   return `**${command.title}**: \`${command.aliases[0]}\` ${command.description}`;
 };
 
+/**
+ * @param {Suggestion} suggestion
+ */
+const formatListSuggestion = function formatListSuggestion(suggestion) {
+  const content = suggestion.content.length < 145 ? suggestion.content.length : `${suggestion.content.slice(0, 142)}...`;
+  return `\`${suggestion.ref}\` ${content}`;
+};
+
 const resolveContentArrayItem = function resolveContentArrayItem(item) {
   switch (true) {
     case (typeof item === 'string'):
       return item;
     case (item instanceof Command):
       return formatListCommand(item);
+    case (item instanceof Suggestion):
+      return formatListSuggestion(item);
     default:
       return 'Could not resolve list item';
   }
@@ -97,6 +110,18 @@ const formatMajorMinor = function formatMajorMinor(minor) {
   return embed;
 };
 
+/**
+ * @param {Suggestion} suggestion
+ */
+const formatSuggestion = function formatSuggestion(suggestion) {
+  const content = suggestion.content.length > 255
+    ? `${suggestion.content.slice(0, 252)}...` : suggestion.content;
+  const embed = new MessageEmbed();
+  embed.setDescription(content);
+  embed.setFooter(suggestion.ref);
+  return embed;
+};
+
 const resolveContent = function resolveContent(content) {
   switch (true) {
     case (typeof content === 'string'):
@@ -112,6 +137,8 @@ const resolveContent = function resolveContent(content) {
       return formatMajorMinor(content);
     case (content instanceof AccountLogger && content.transaction === 'account-created'):
       return formatAccountCreated(content);
+    case (content instanceof Suggestion):
+      return formatSuggestion(content);
     default:
       return 'Could not resolve item';
   }
