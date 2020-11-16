@@ -16,6 +16,13 @@ const formatListCommand = function formatListCommand(command) {
 };
 
 /**
+ * @param {MajorMinor} majorminor
+ */
+const formatListMajorMinor = function formatListMajorMinor(majorminor) {
+  return `\`${majorminor.version}.X\` **${majorminor.name}** ${majorminor.patches.length}`;
+};
+
+/**
  * @param {Suggestion} suggestion
  */
 const formatListSuggestion = function formatListSuggestion(suggestion) {
@@ -29,6 +36,8 @@ const resolveContentArrayItem = function resolveContentArrayItem(item) {
       return item;
     case (item instanceof Command):
       return formatListCommand(item);
+    case (item instanceof MajorMinor):
+      return formatListMajorMinor(item);
     case (item instanceof Suggestion):
       return formatListSuggestion(item);
     default:
