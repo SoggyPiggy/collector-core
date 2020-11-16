@@ -45,7 +45,7 @@ export default class Suggestion {
     });
 
     try {
-      const { instertedId } = await (await collection).insertOne();
+      const { instertedId } = await (await collection).insertOne(suggestion);
       suggestion._id = instertedId;
       return suggestion;
     } catch (error) {
