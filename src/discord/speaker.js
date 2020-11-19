@@ -5,6 +5,7 @@ import { AccountLogger } from '../loggers';
 import { MajorMinor } from '../changelog';
 import {
   Account,
+  CoinInstance,
   Suggestion,
 } from '../structures';
 
@@ -30,6 +31,13 @@ const formatListSuggestion = function formatListSuggestion(suggestion) {
   return `\`${suggestion.ref}\` ${content}`;
 };
 
+/**
+ * @param {CoinInstance} coin
+ */
+const formatListCoinInstance = function formatListCoinInstance(coin) {
+  return `\`${coin.ref}\`\`${coin}\``;
+};
+
 const resolveContentArrayItem = function resolveContentArrayItem(item) {
   switch (true) {
     case (typeof item === 'string'):
@@ -40,6 +48,8 @@ const resolveContentArrayItem = function resolveContentArrayItem(item) {
       return formatListMajorMinor(item);
     case (item instanceof Suggestion):
       return formatListSuggestion(item);
+    case (item instanceof CoinInstance):
+      return formatListCoinInstance(item);
     default:
       return 'Could not resolve list item';
   }
