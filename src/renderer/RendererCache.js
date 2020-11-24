@@ -2,7 +2,7 @@ import sharp from 'sharp';
 import xmldom from 'xmldom';
 import { join } from 'path';
 import { promises as fs } from 'fs';
-import { getStructure, artPath, mapPath } from './utils';
+import { artPath, mapPath } from './utils';
 
 const xmlCache = new Map();
 const timeouts = new Map();
