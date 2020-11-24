@@ -78,11 +78,11 @@ export default class Coin {
   }
 
   /**
-   * @param {ObjectID} id
+   * @param {ObjectID} _id
    * @returns {Coin}
    */
-  static async getByObjectID(id) {
-    return Coin.find({ _id: id });
+  static async getByObjectID(_id) {
+    return Coin.find({ _id });
   }
 
   /**
