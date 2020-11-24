@@ -78,7 +78,7 @@ export default class CoinInstance {
   }
 
   get account() {
-    if (typeof this._accountID === 'undefined') return undefined;
+    if (this._accountID === null) return undefined;
     return new Promise((resolve, reject) => {
       import('./Coin').then((module) => {
         const Account = module.default;
