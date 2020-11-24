@@ -87,6 +87,10 @@ export default class CoinInstance {
     });
   }
 
+  async structure(scope) {
+    return (await this.series).structure(scope);
+  }
+
   static get collection() { return collection; }
 
   /**

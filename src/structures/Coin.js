@@ -49,6 +49,10 @@ export default class Coin {
     });
   }
 
+  async structure(scope) {
+    return (await this.series).structure(scope);
+  }
+
   static get collection() { return collection; }
 
   /**

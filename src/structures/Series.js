@@ -26,6 +26,23 @@ export default class Series {
     return Series.find({ _id: this._seriesID });
   }
 
+  /* eslint-disable no-await-in-loop */
+  /**
+   * @param {String} scope
+   * @returns {import('../structures').Series[]}
+   */
+  async structure(scope) {
+    let series = [this];
+    if (this._seriesID !== null) {
+      const parentSeries = await this.series;
+      series = [...(await parentSeries.structure()), this];
+    }
+    return typeof scope === 'undefined'
+      ? series
+      : series.map((value) => value[scope]);
+  }
+  /* eslint-enable no-await-in-loop */
+
   static get collection() { return collection; }
 
   /**
