@@ -62,6 +62,9 @@ export default class CoinInstance {
     }
   }
 
+  /**
+   * @returns {import('./Coin').default}
+   */
   get coin() {
     return new Promise((resolve, reject) => {
       import('./Coin').then((module) => {

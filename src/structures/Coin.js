@@ -40,6 +40,9 @@ export default class Coin {
     Object.assign(this, options);
   }
 
+  /**
+   * @returns {import('./Series').default}
+   */
   get series() {
     return new Promise((resolve, reject) => {
       import('./Series').then((module) => {
