@@ -1,12 +1,8 @@
-import { promises as fs } from 'fs';
 import { join } from 'path';
-import sharp from 'sharp';
 import { CoinInstance } from '../structures';
 
 export const artPath = join(process.cwd(), '/assets/coins/art');
 export const mapPath = join(artPath, '../maps');
-
-export const map = sharp(`${join(mapPath, 'standard_01.png')}`);
 
 /* eslint-disable no-await-in-loop */
 /**
