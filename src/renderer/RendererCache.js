@@ -27,7 +27,8 @@ export default class RendererCache {
     let data;
     if (xmlCache.has(_id)) data = xmlCache.get(_id);
     else {
-      const directories = await getStructure(coin, 'directory');
+      const base = await coin.coin;
+      const directories = [...(await base.structure('directory')), base.directory];
       data = await fs.readFile(`${join(artPath, ...directories)}.svg`, 'utf-8');
       xmlCache.set(_id, data);
       resetTimer(_id, xmlCache, 60000 * 10);
