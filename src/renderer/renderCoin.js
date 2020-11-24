@@ -5,7 +5,7 @@ import RendererCache from './RendererCache';
 /**
  * @param {import('../structures').Coin} coin
  */
-export default async function renderCoin(coin, { size = 128 }) {
+export default async function renderCoin(coin, { size = 256 }) {
   const xml = await RendererCache.getXML(coin);
   const xmlSVGs = xml.getElementsByTagName('svg');
   if (xmlSVGs.length <= 0) throw new Error('No SVGs found in file');

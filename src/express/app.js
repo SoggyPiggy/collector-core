@@ -9,7 +9,7 @@ const port = 3000;
 app.get('/render/coin/:reference', async (request, response) => {
   const { reference } = request.params;
   const { condition = true } = request.query;
-  let { size = 128 } = request.query;
+  let { size = 256 } = request.query;
   size = Math.min(4096, Math.max(16, size));
   const coinInstance = await CoinInstance.getByReference(reference);
   if (typeof coinInstance !== 'undefined') {
