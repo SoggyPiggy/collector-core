@@ -16,6 +16,7 @@ export const commandsAll = [
   require('./commands/claim').default,
   require('./commands/profile').default,
   require('./commands/pp_compare').default,
+  require('./commands/view').default,
   require('./commands/collection').default,
   require('./commands/coins').default,
   require('./commands/series').default,
