@@ -7,13 +7,13 @@ const port = 3000;
 
 app.get('/render/coin/:reference', async (request, response) => {
   const { reference } = request.params;
-  const { condition = true } = request.query;
-  let { size = 256 } = request.query;
+  let { size = 256, base = false } = request.query;
   size = Math.min(4096, Math.max(16, size));
+  base = base === false;
   const coinInstance = await CoinInstance.getByReference(reference);
   if (typeof coinInstance !== 'undefined') {
-    const coin = condition ? coinInstance : await coinInstance.coin;
-    const renderer = condition ? renderCoinInstance : renderCoin;
+    const coin = base ? coinInstance : await coinInstance.coin;
+    const renderer = base ? renderCoinInstance : renderCoin;
     const buffer = await renderer(coin, { size });
     response.contentType('image/png');
     response.send(buffer);
