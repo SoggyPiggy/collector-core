@@ -91,4 +91,26 @@ export default class CoinInstance {
       throw error;
     }
   }
+
+  /**
+   * @param {ObjectID} _id
+   * @returns {Coin}
+   */
+  static async getByObjectID(_id) {
+    return CoinInstance.find({ _id });
+  }
+
+  /**
+   * @param {String} reference
+   * @returns {CoinInstance}
+   */
+  static async getByReference(reference) {
+    return CoinInstance.find({ reference: parseInt(reference, 36) });
+  }
+
+  static async find(query = {}) {
+    const coin = await (await collection).findOne(query);
+    if (coin === null) return undefined;
+    return new CoinInstance(coin);
+  }
 }
