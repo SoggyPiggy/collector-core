@@ -62,6 +62,31 @@ export default class CoinInstance {
     }
   }
 
+  get coin() {
+    return new Promise((resolve, reject) => {
+      import('./Coin').then((module) => {
+        const Coin = module.default;
+        resolve(Coin.getByObjectID(this._coinID));
+      }).catch(reject);
+    });
+  }
+
+  get series() {
+    return new Promise((resolve, reject) => {
+      this.coin.then((coin) => resolve(coin.series)).catch(reject);
+    });
+  }
+
+  get account() {
+    if (typeof this._accountID === 'undefined') return undefined;
+    return new Promise((resolve, reject) => {
+      import('./Coin').then((module) => {
+        const Account = module.default;
+        resolve(Account.getByObjectID(this._accountID));
+      }).catch(reject);
+    });
+  }
+
   static get collection() { return collection; }
 
   /**
