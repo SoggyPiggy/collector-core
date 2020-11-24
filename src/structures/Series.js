@@ -22,6 +22,9 @@ export default class Series {
     Object.assign(this, options);
   }
 
+  /**
+   * @returns {Promise<Series>|Promise<undefined>}
+   */
   get series() {
     return Series.find({ _id: this._seriesID });
   }
