@@ -1,6 +1,5 @@
 import express from 'express';
-import renderCoin from '../renderer/renderCoin';
-import renderCoinInstance from '../renderer/renderCoinInstance';
+import { renderCoin, renderCoinInstance } from '../renderer';
 import { CoinInstance } from '../structures';
 
 const app = express();
