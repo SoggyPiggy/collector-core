@@ -139,6 +139,7 @@ export default {
         _postgresID: Number(_postgresID),
         _postgresCoinID: Number(_postgresCoinID),
         _postgresAccountID: _postgresAccountID === '\\N' ? undefined : Number(_postgresAccountID),
+        reference: Number(_postgresID),
         condition: _postgresAccountID === '\\N' ? Number(condition) * 0.5 : Number(condition),
         value: Number(value),
         conditionRoll: Number(conditionRoll),
@@ -160,6 +161,7 @@ export default {
       ]) => ({
         _postgresID: Number(_postgresID),
         _postgresAccountID: Number(_postgresAccountID),
+        reference: Number(_postgresID),
         content,
         discordUsername,
         insertedAt: new Date(insertedAt),
