@@ -32,7 +32,6 @@ export default class Coin {
     this.name = undefined;
     this.flavorText = undefined;
     this.directory = '_coin';
-    this.directoryTails = '_coin';
     this.weight = (() => random.integer(750, 1000))();
     this.value = 0;
     this.inCirculation = true;
