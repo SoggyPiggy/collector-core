@@ -20,6 +20,7 @@ export default async function renderCoinInstance(coin, { size = 256 }) {
   const map = (await RendererCache.getMap())
     .threshold(255 - Math.floor(255 * coin.condition))
     .blur(0.8)
+    .sharpen(1000)
     .resize(size)
     .composite([{
       input: await art.clone().extractChannel('alpha').toColorspace('b-w').toBuffer(),
