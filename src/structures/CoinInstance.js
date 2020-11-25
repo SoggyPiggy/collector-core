@@ -98,6 +98,11 @@ export default class CoinInstance {
     }/render/coin${this.ref}`;
   }
 
+  friendlyValue() {
+    const sections = `${Math.floor(this.value * 100) / 100}`.split('.');
+    return `¤${sections[0]}.${sections[1] ? `${sections[1]}`.padEnd(2, '0') : '00'}`;
+  }
+
   async structure(scope) {
     return (await this.series).structure(scope);
   }
