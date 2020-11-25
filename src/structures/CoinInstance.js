@@ -90,6 +90,14 @@ export default class CoinInstance {
     });
   }
 
+  renderURL() {
+    return `${
+      process.env.NODE_ENV === 'production'
+        ? 'https://collector.soggypiggy.com'
+        : 'http://73.255.152.184:3000'
+    }/render/coin${this.ref}`;
+  }
+
   async structure(scope) {
     return (await this.series).structure(scope);
   }
