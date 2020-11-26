@@ -100,12 +100,13 @@ export default class CoinInstance {
     });
   }
 
-  renderURL() {
+  renderURL(options = {}) {
+    const { size = 256 } = options;
     return `${
       process.env.NODE_ENV === 'production'
         ? 'https://collector.soggypiggy.com'
         : 'http://73.255.152.184:3000'
-    }/render/coin${this.reference}`;
+    }/render/coin/${this.reference}?size=${size}`;
   }
 
   friendlyValue() {
