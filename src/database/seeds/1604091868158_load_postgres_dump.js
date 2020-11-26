@@ -319,12 +319,14 @@ export default {
           if (data.transaction === 'collect') {
             return CoinInstanceLogger.newCollectLog(
               { ...coinInstance, _accountID: account._id },
+              account,
               'from postgres dump',
             );
           }
           const { conditionNatural } = coinInstance;
           return CoinInstanceLogger.newScrappedlLog(
             { ...coinInstance, condition: conditionNatural, _accountID: account._id },
+            account,
             'from postgres dump',
           ).setAfter(coinInstance);
         })

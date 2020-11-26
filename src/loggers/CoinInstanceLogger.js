@@ -9,6 +9,7 @@ const collection = (async () => (await database()).collection('coin_instance_log
 export default class CoinInstanceLogger extends Logger {
   constructor(options = {}) {
     super();
+    this._accountID = undefined;
     this._coinInstanceID = undefined;
     Object.assign(this, options);
   }
@@ -30,33 +31,37 @@ export default class CoinInstanceLogger extends Logger {
     return new CoinInstanceLogger(await insertOne(collection, logger));
   }
 
-  static newCollectLog(coinInstance, note) {
+  static newCollectLog(coinInstance, account, note) {
     return new CoinInstanceLogger({
       note,
+      _accountID: account._id,
       _coinInstanceID: coinInstance._id,
       transaction: 'collected',
     }).setAfter(coinInstance);
   }
 
-  static newClaimLog(coinInstance, note) {
+  static newClaimLog(coinInstance, account, note) {
     return new CoinInstanceLogger({
       note,
+      _accountID: account._id,
       _coinInstanceID: coinInstance._id,
       transaction: 'claimed',
     }).setAfter(coinInstance);
   }
 
-  static newScrappedlLog(coinInstance, note) {
+  static newScrappedlLog(coinInstance, account, note) {
     return new CoinInstanceLogger({
       note,
+      _accountID: account._id,
       _coinInstanceID: coinInstance._id,
       transaction: 'scrapped',
     }).setBefore(coinInstance);
   }
 
-  static newRepairedLog(coinInstance, note) {
+  static newRepairedLog(coinInstance, account, note) {
     return new CoinInstanceLogger({
       note,
+      _accountID: account._id,
       _coinInstanceID: coinInstance._id,
       transaction: 'repaired',
     }).setBefore(coinInstance);
