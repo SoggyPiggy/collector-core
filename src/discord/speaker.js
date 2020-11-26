@@ -141,6 +141,23 @@ const formatSuggestion = function formatSuggestion(suggestion) {
   return embed;
 };
 
+/**
+ * @param {CoinInstance} coin
+ */
+const formatCoinInstance = async function formatCoinInstance(coin) {
+  const base = await coin.coin;
+  const embed = new MessageEmbed();
+  embed.setTitle(base.name);
+  embed.setAuthor((await (await base.series).structure('name')).join(' > '));
+  embed.setImage(coin.renderURL());
+  embed.setFooter(coin.reference);
+  embed.setDescription(`
+  **Grade**: ${coin.grade}
+  **Value**: ${coin.friendlyValue()}
+  `);
+  return embed;
+};
+
 const resolveContent = function resolveContent(content) {
   switch (true) {
     case (typeof content === 'string'):
@@ -158,6 +175,8 @@ const resolveContent = function resolveContent(content) {
       return formatAccountCreated(content);
     case (content instanceof Suggestion):
       return formatSuggestion(content);
+    case (content instanceof CoinInstance):
+      return formatCoinInstance(content);
     default:
       return 'Could not resolve item';
   }
