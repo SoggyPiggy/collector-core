@@ -2,6 +2,7 @@ import { database } from '../database';
 import random from '../utils/random';
 
 const collection = (async () => (await database()).collection('coin_instances'))();
+const dateStart = new Date(2020, 10, 8);
 
 export const generateConditionRoll = function generateCoinInstanceCoditionRoll() {
   return random.real(0, 1, true);
@@ -11,6 +12,15 @@ export const processConditionRoll = function processCoinInstanceConditionRoll(ro
   if (roll === 0 || roll === 1) return roll;
   if (roll < 0.5) return 1 - processConditionRoll(1 - roll);
   return (((2 * roll - 1) ** 2.2) / 2) + 0.5;
+};
+
+const genReference = function generateReferenceID(number) {
+  const dateNow = new Date();
+  return `${
+    Math.floor((dateNow - dateStart) / 86400000).toString(36).padStart(3, '0')
+  }${
+    number.toString(36).padStart(3, '0')
+  }`.toUpperCase();
 };
 
 /**
@@ -32,7 +42,7 @@ export default class CoinInstance {
     this._id = undefined;
     this._coinID = undefined;
     this._accountID = undefined;
-    this.reference = random.integer(0, 2176782336);
+    this.reference = undefined;
     this.conditionRoll = generateConditionRoll();
     this.condition = processConditionRoll(this.conditionRoll);
     this.conditionNatural = this.condition;
@@ -40,9 +50,9 @@ export default class CoinInstance {
     this.isAltered = false;
     this.insertedAt = new Date();
     Object.assign(this, options);
+    if (typeof this.reference === 'undefined') this.reference = random.integer(0, 46656);
+    if (typeof this.reference === 'number') this.reference = genReference(this.reference);
   }
-
-  get ref() { return this.reference.toString(36).toUpperCase().padStart(6, '0'); }
 
   get grade() {
     switch (true) {
@@ -95,7 +105,7 @@ export default class CoinInstance {
       process.env.NODE_ENV === 'production'
         ? 'https://collector.soggypiggy.com'
         : 'http://73.255.152.184:3000'
-    }/render/coin${this.ref}`;
+    }/render/coin${this.reference}`;
   }
 
   friendlyValue() {
@@ -150,7 +160,7 @@ export default class CoinInstance {
    * @returns {CoinInstance}
    */
   static async getByReference(reference) {
-    return CoinInstance.find({ reference: parseInt(reference, 36) });
+    return CoinInstance.find({ reference });
   }
 
   static async find(query = {}) {

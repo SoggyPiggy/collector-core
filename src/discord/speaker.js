@@ -28,14 +28,14 @@ const formatListMajorMinor = function formatListMajorMinor(majorminor) {
  */
 const formatListSuggestion = function formatListSuggestion(suggestion) {
   const content = suggestion.content.length < 145 ? suggestion.content.length : `${suggestion.content.slice(0, 142)}...`;
-  return `\`${suggestion.ref}\` ${content}`;
+  return `\`${suggestion.reference}\` ${content}`;
 };
 
 /**
  * @param {CoinInstance} coin
  */
 const formatListCoinInstance = function formatListCoinInstance(coin) {
-  return `\`${coin.ref}\`\`${coin}\``;
+  return `\`${coin.reference}\`\`${coin}\``;
 };
 
 const resolveContentArrayItem = function resolveContentArrayItem(item) {
@@ -137,7 +137,7 @@ const formatSuggestion = function formatSuggestion(suggestion) {
     ? `${suggestion.content.slice(0, 252)}...` : suggestion.content;
   const embed = new MessageEmbed();
   embed.setDescription(content);
-  embed.setFooter(suggestion.ref);
+  embed.setFooter(suggestion.reference);
   return embed;
 };
 

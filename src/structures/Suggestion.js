@@ -2,6 +2,16 @@ import { database } from '../database';
 import random from '../utils/random';
 
 const collection = (async () => (await database()).collection('suggestions'))();
+const dateStart = new Date(2020, 10, 8);
+
+const genReference = function generateReferenceID(number) {
+  const dateNow = new Date();
+  return `${
+    Math.floor((dateNow - dateStart) / 86400000).toString(36).padStart(3, '0')
+  }${
+    number.toString(36).padStart(3, '0')
+  }`.toUpperCase();
+};
 
 /**
  * @typedef {Object} SuggestionOptions
@@ -20,14 +30,14 @@ export default class Suggestion {
   constructor(options = {}) {
     this._id = undefined;
     this._accountID = undefined;
-    this.reference = random.integer(0, 1679616);
+    this.reference = undefined;
     this.content = '';
     this.discordUsername = '';
     this.insertedAt = new Date();
     Object.assign(this, options);
+    if (typeof this.reference === 'undefined') this.reference = random.integer(0, 46656);
+    if (typeof this.reference === 'number') this.reference = genReference(this.reference);
   }
-
-  get ref() { return this.reference.toString(36).toUpperCase().padStart(4, '0'); }
 
   static get collection() { return collection; }
 
