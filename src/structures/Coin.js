@@ -133,4 +133,16 @@ export default class Coin {
       ...(await this.allFromSeriesRecursive(await series.series)),
     ];
   }
+
+  static async randomCollectable() {
+    const coins = await Coin.all({ inCirculation: true }, { sort: [['weight', 1]] });
+    const total = coins.reduce((prev, coin) => prev + coin.weight, 0);
+    const target = random.integer(0, total);
+    let position = 0;
+    return coins.find((coin) => {
+      position += coin.weight;
+      if (position >= target) return true;
+      return false;
+    });
+  }
 }
