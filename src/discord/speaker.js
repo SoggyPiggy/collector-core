@@ -1,7 +1,7 @@
 import { MessageEmbed } from 'discord.js';
 import client from './client';
 import { Command } from '../commands';
-import { AccountLogger } from '../loggers';
+import { AccountLogger, CoinInstanceLogger } from '../loggers';
 import { MajorMinor } from '../changelog';
 import {
   Account,
@@ -158,6 +158,12 @@ const formatCoinInstance = async function formatCoinInstance(coin) {
   return embed;
 };
 
+const formatCoinInstanceLogCollect = async function formatCoinInstanceLogCollect(log) {
+  const coin = await log.coinInstance;
+  if (typeof coin === 'undefined') return 'uhh... oops';
+  return formatCoinInstance(coin);
+};
+
 const resolveContent = async function resolveContent(content) {
   switch (true) {
     case (typeof content === 'string'):
@@ -177,6 +183,13 @@ const resolveContent = async function resolveContent(content) {
       return formatSuggestion(content);
     case (content instanceof CoinInstance):
       return formatCoinInstance(content);
+    case (content instanceof CoinInstanceLogger):
+      switch (content.transaction) {
+        case 'collected':
+          return formatCoinInstanceLogCollect(content);
+        default:
+          return 'Could not resolve CoinInstanceLogger';
+      }
     default:
       return 'Could not resolve item';
   }
