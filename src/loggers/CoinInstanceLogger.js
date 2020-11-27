@@ -90,7 +90,7 @@ export default class CoinInstanceLogger extends Logger {
       _accountID: account._id,
       transaction: 'collected',
     }, {
-      sort: [['timestamp', 1]],
+      sort: [['timestamp', -1]],
     });
   }
 
