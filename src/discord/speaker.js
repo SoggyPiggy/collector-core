@@ -158,7 +158,7 @@ const formatCoinInstance = async function formatCoinInstance(coin) {
   return embed;
 };
 
-const resolveContent = function resolveContent(content) {
+const resolveContent = async function resolveContent(content) {
   switch (true) {
     case (typeof content === 'string'):
     case (content instanceof MessageEmbed):
