@@ -135,7 +135,7 @@ export default class Coin {
   }
 
   static async randomCollectable() {
-    const coins = await Coin.all({ inCirculation: true }, { sort: [['weight', 1]] });
+    const coins = await Coin.all({ inCirculation: true }, { sort: [['weight', -1]] });
     const total = coins.reduce((prev, coin) => prev + coin.weight, 0);
     const target = random.integer(0, total);
     let position = 0;
