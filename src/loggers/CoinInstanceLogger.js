@@ -16,6 +16,24 @@ export default class CoinInstanceLogger extends Logger {
 
   log() { return CoinInstanceLogger.log(this); }
 
+  get account() {
+    return new Promise((resolve, reject) => {
+      import('../structures').then((module) => {
+        const { Account } = module;
+        resolve(Account.getByObjectID(this._accountID));
+      }).catch(reject);
+    });
+  }
+
+  get coinInstance() {
+    return new Promise((resolve, reject) => {
+      import('../structures').then((module) => {
+        const { CoinInstance } = module;
+        resolve(CoinInstance.getByObjectID(this._coinInstanceID));
+      }).catch(reject);
+    });
+  }
+
   static get collection() { return collection; }
 
   static get transactions() {
