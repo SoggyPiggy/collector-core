@@ -67,6 +67,15 @@ export default class CoinInstanceLogger extends Logger {
     }).setBefore(coinInstance);
   }
 
+  static getLastCollect(account) {
+    return CoinInstanceLogger.find({
+      _accountID: account._id,
+      transaction: 'collected',
+    }, {
+      sort: [['timestamp', 1]],
+    });
+  }
+
   static async find(query = {}, options = {}) {
     const log = await (await collection).findOne(query, options);
     if (log === null) return undefined;
