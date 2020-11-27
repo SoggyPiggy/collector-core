@@ -66,4 +66,10 @@ export default class CoinInstanceLogger extends Logger {
       transaction: 'repaired',
     }).setBefore(coinInstance);
   }
+
+  static async find(query = {}, options = {}) {
+    const log = await (await collection).findOne(query, options);
+    if (log === null) return undefined;
+    return new CoinInstanceLogger(log);
+  }
 }
