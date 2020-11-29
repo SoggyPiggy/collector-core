@@ -125,4 +125,15 @@ export default class Account {
       { $set: account },
     );
   }
+
+  /**
+   * @param {AccountOptions} query
+   * @param {import('mongodb').FindOneOptions} options
+   * @returns {Account[]}
+   */
+  static async all(query = {}, options = {}) {
+    const cursor = await (await collection).find(query, options);
+    cursor.map((document) => new Account(document));
+    return cursor.toArray();
+  }
 }
