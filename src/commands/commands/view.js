@@ -10,7 +10,7 @@ const execute = async function executeCommand({ account, inputArguments, command
   const [argCoinReference] = argv._args;
   const coin = await CoinInstance.getByReference(argCoinReference);
   if (typeof coin === 'undefined') throw new Error(`Coin not found: ${argCoinReference}`);
-  if (coin._accountID !== account._id) throw new Error(`Coin not in possession: ${coin.reference}`);
+  if (!coin._accountID.equals(account._id)) throw new Error(`Coin not in possession: ${coin.reference}`);
   return coin;
 };
 
