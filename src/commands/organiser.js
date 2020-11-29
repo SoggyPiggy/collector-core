@@ -7,6 +7,7 @@
  * @type {Command[]}
  */
 export const commandsAll = [
+  require('./commands/admin_toggle').default,
   require('./commands/help').default,
   require('./commands/register').default,
   require('./commands/guide').default,
