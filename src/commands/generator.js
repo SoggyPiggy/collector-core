@@ -3,7 +3,7 @@ import fs from 'fs';
 
 const generateCommand = async function generateCommandFile(data) {
   const parts = data.split(' ');
-  const title = parts.map((part) => part[0].toUpperCase() + part.slice(1, Infinity).toLowerCase());
+  const title = parts.map((part) => part[0].toUpperCase() + part.slice(1, Infinity).toLowerCase()).join(' ');
   const name = parts.join('_').toLowerCase();
   const file = join(process.cwd(), './src/commands/commands/', `${name}.js`);
   return new Promise((resolve, reject) => {
@@ -11,6 +11,9 @@ const generateCommand = async function generateCommandFile(data) {
       `import Command from '../Command';
        import CollectorError from '../../error';
         
+        /**
+        * @param {import('../').CommandExecuteArgs} commandExecuteArgs
+        */
         const execute = async function executeCommand() {
           throw new CollectorError('Command execute function not defined');
         };
