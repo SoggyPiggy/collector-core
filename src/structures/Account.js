@@ -77,9 +77,11 @@ export default class Account {
    * @returns {Account}
    */
   static async getByDiscordUser(user) {
-    const account = findFromCaches(user.id);
+    let account = findFromCaches(user.id);
     if (typeof account !== 'undefined') return account;
-    return Account.find({ discordID: user.id });
+    account = await Account.find({ discordID: user.id });
+    account.discordUsername = user.username;
+    return account;
   }
 
   /**
