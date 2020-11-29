@@ -179,4 +179,31 @@ export default class CoinInstance {
     cursor.map((document) => new CoinInstance(document));
     return cursor.toArray();
   }
+
+  static sort(coins) {
+    return new Promise((resolveMain) => {
+      Promise.all(coins.map((coinInstance) => new Promise((resolve) => {
+        Promise.all([
+          coinInstance.structure(),
+          coinInstance.coin,
+        ]).then((items) => resolve([...items, coinInstance]));
+      }))).then((results) => resolveMain(
+        results
+          .sort(([seriesA, coinA, coinInstanceA], [seriesB, coinB, coinInstanceB]) => {
+            return seriesA[0].name > seriesB[0].name
+            // for (let i = 0; i < Math.max(seriesA.length, seriesB.length); i += 1) {
+            //   const serA = seriesA[i];
+            //   const serB = seriesB[i];
+            //   if (typeof serA === 'undefined') return 1;
+            //   if (typeof serB === 'undefined') return -1;
+            //   if (serA.name !== serB.name) return serA.name > serB.name;
+            // }
+            // if (coinA.name !== coinB.name) return coinA.name > coinB.name;
+            // if (coinInstanceA.reference === coinInstanceB.reference) return 1;
+            // return (coinInstanceA.insertedAt > coinInstanceB.insertedAt);
+          })
+          .map(([, , coin]) => coin),
+      ));
+    });
+  }
 }
