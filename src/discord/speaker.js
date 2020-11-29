@@ -34,8 +34,8 @@ const formatListSuggestion = function formatListSuggestion(suggestion) {
 /**
  * @param {CoinInstance} coin
  */
-const formatListCoinInstance = function formatListCoinInstance(coin) {
-  return `\`${coin.reference}\`\`${coin}\``;
+const formatListCoinInstance = async function formatListCoinInstance(coin) {
+  return `\`${coin.reference}\` \`${coin.grade.padEnd(11, ' ')}\` ${(await coin.structure('name')).join(' > ')} > **${(await coin.coin).name}**`;
 };
 
 const resolveContentArrayItem = function resolveContentArrayItem(item) {
