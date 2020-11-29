@@ -169,4 +169,14 @@ export default class CoinInstance {
     if (coin === null) return undefined;
     return new CoinInstance(coin);
   }
+
+  static allFromAccount(account) {
+    return CoinInstance.all({ _accountID: account._id });
+  }
+
+  static async all(query = {}, options = {}) {
+    const cursor = await (await collection).find(query, options);
+    cursor.map((document) => new CoinInstance(document));
+    return cursor.toArray();
+  }
 }
