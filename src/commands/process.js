@@ -1,3 +1,4 @@
+import CollectorError from '../error';
 import { findCommand, getList } from './organiser';
 
 /**
@@ -27,7 +28,7 @@ export const split = function splitStringIntoComponents(input) {
 export const process = async function processInputForCommand(input, account, passedData = {}) {
   const [inputCommand, ...inputArguments] = split(input);
   const command = findCommand(inputCommand.toLowerCase(), getList(account));
-  if (typeof command === 'undefined') throw new Error(`Command not found: ${inputCommand}`);
+  if (typeof command === 'undefined') throw new CollectorError(`Command not found: ${inputCommand}`);
   return command.execute({
     ...passedData,
     command,

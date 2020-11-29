@@ -9,9 +9,10 @@ const generateCommand = async function generateCommandFile(data) {
   return new Promise((resolve, reject) => {
     fs.writeFile(file,
       `import Command from '../Command';
+       import CollectorError from '../../error';
         
         const execute = async function executeCommand() {
-          throw new Error('Command execute function not defined');
+          throw new CollectorError('Command execute function not defined');
         };
         
         const command = new Command({

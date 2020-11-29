@@ -1,4 +1,5 @@
 import { DMChannel } from 'discord.js';
+import CollectorError from '../error';
 import { process } from '../commands';
 import { Account } from '../structures';
 import client from './client';
@@ -20,7 +21,10 @@ const processMessage = async function processMessageFromClientEvent(message) {
   const account = await Account.getByDiscordUser(author);
   process(input, account, { discordUser: author })
     .then((result) => send(result, author, channel))
-    .catch((error) => send(error.message, author, channel));
+    .catch((error) => {
+      if (error instanceof CollectorError) send(error.message, author, channel);
+      else console.error(error); // eslint-disable-line no-console
+    });
 };
 
 client.on('message', processMessage);

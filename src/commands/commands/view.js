@@ -1,16 +1,17 @@
 import Command from '../Command';
 import { CoinInstance } from '../../structures';
+import CollectorError from '../../error';
 
 /**
  * @param {import('../').CommandExecuteArgs} commandExecuteArgs
  */
 const execute = async function executeCommand({ account, inputArguments, command }) {
   const argv = command.parseArgs(inputArguments);
-  if (argv._args.length <= 0) throw new Error('Coin reference not provided');
+  if (argv._args.length <= 0) throw new CollectorError('Coin reference not provided');
   const [argCoinReference] = argv._args;
   const coin = await CoinInstance.getByReference(argCoinReference);
-  if (typeof coin === 'undefined') throw new Error(`Coin not found: ${argCoinReference}`);
-  if (!coin._accountID.equals(account._id)) throw new Error(`Coin not in possession: ${coin.reference}`);
+  if (typeof coin === 'undefined') throw new CollectorError(`Coin not found: ${argCoinReference}`);
+  if (!coin._accountID.equals(account._id)) throw new CollectorError(`Coin not in possession: ${coin.reference}`);
   return coin;
 };
 

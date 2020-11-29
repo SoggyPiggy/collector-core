@@ -1,6 +1,7 @@
 import sharp from 'sharp';
 import xmldom from 'xmldom';
 import RendererCache from './RendererCache';
+import CollectorError from '../error';
 
 /**
  * @param {import('../structures').CoinInstance} coin
@@ -8,7 +9,7 @@ import RendererCache from './RendererCache';
 export default async function renderCoinInstance(coin, { size = 256 }) {
   const xml = await RendererCache.getXML(coin);
   const xmlSVGs = xml.getElementsByTagName('svg');
-  if (xmlSVGs.length <= 0) throw new Error('No SVGs found in file');
+  if (xmlSVGs.length <= 0) throw new CollectorError('No SVGs found in file');
   const xmlMainSVG = xmlSVGs.item(0);
   xmlMainSVG.setAttribute('width', `${size}px`);
   xmlMainSVG.setAttribute('height', `${size}px`);

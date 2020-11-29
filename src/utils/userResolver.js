@@ -1,5 +1,6 @@
 import levenshtein from 'fast-levenshtein';
 import client from '../discord';
+import CollectorError from '../error';
 import { Account } from '../structures';
 
 const getByDiscordID = async function getAccountFromDiscordUserID(resolveable) {
@@ -29,6 +30,6 @@ const accountResolver = async function accountResolver(resolveable) {
   if (typeof account !== 'undefined' && account !== null) return account;
   account = await getByLevenshtein(resolveable);
   if (typeof account !== 'undefined' && account !== null) return account;
-  throw new Error(`Unable to resolve account: ${resolveable}`);
+  throw new CollectorError(`Unable to resolve account: ${resolveable}`);
 };
 export default accountResolver;

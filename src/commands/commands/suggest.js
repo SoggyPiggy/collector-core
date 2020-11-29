@@ -1,12 +1,13 @@
 import Command from '../Command';
 import { Suggestion } from '../../structures';
+import CollectorError from '../../error';
 
 /**
  * @param {import('../').CommandExecuteArgs} commandExecuteArgs
  */
 const execute = async function executeCommand({ account, inputArguments }) {
   const content = inputArguments.join(' ');
-  if (content.length <= 0) throw new Error('No suggestion was given');
+  if (content.length <= 0) throw new CollectorError('No suggestion was given');
   const suggestion = await Suggestion.new(account, content);
   return suggestion;
 };

@@ -1,5 +1,6 @@
 import { CoinInstanceLogger } from '../../loggers';
 import { Coin, CoinInstance } from '../../structures';
+import CollectorError from '../../error';
 import Command from '../Command';
 
 const second = 1000;
@@ -36,7 +37,7 @@ const execute = async function executeCommand({ account }) {
     const { timestamp } = log;
     const now = Date.now();
     const currentDay = Math.floor(now / day);
-    if (currentDay <= Math.floor(timestamp / day)) throw new Error(`You have already collected today\nReset happens in ${formatTime(((currentDay + 1) * day) - now)}`);
+    if (currentDay <= Math.floor(timestamp / day)) throw new CollectorError(`You have already collected today\nReset happens in ${formatTime(((currentDay + 1) * day) - now)}`);
   }
   const coin = await Coin.randomCollectable();
   const coinInstance = await CoinInstance.new({}, account, coin);
