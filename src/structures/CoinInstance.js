@@ -127,25 +127,36 @@ export default class CoinInstance {
    * @returns {CoinInstance}
    */
   static async new(options, account, coin) {
-    const coinInstance = new CoinInstance({
+    const coinInstance = CoinInstance.generate(options, account, coin);
+    return CoinInstance.insert(coinInstance);
+  }
+
+  /**
+   * @param {CoinInstance} coinInstance
+   */
+  static async insert(coinInstance, attempt = 1) {
+    try {
+      const { insertedId } = await (await collection).insertOne(coinInstance);
+      return new CoinInstance({ ...coinInstance, _id: insertedId });
+    } catch (error) {
+      if (error.code !== 11000) throw error;
+      if (attempt > 10) throw error;
+      return CoinInstance.insert({ ...coinInstance, reference: genReference() }, attempt + 1);
+    }
+  }
+
+  /**
+   * @param {CoinInstanceOptions} options
+   * @param {import('./Account').default} account
+   * @param {import('./Coin').default} coin
+   * @returns {CoinInstance}
+   */
+  static generate(options, account, coin) {
+    return new CoinInstance({
       ...options,
       _accountID: account._id,
       _coinID: coin._id,
     });
-    try {
-      const { insertedId } = await (await collection).insertOne(coinInstance);
-      coinInstance._id = insertedId;
-      return coinInstance;
-    } catch (error) {
-      if (
-        error.code === 11000
-        && typeof error.keyPattern.reference !== 'undefined'
-      ) {
-        delete coinInstance.reference;
-        return CoinInstance.new({ ...coinInstance }, account, coin);
-      }
-      throw error;
-    }
   }
 
   /**
