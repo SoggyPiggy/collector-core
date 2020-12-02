@@ -62,7 +62,7 @@ const resolveContentArray = async function resolveContentArray(content) {
   const page = Math.min(typeof argv.page === 'number' ? argv.page : 1, maxPage);
   const pageItems = items.slice((page - 1) * 20, page * 20);
   embed.setDescription(await Promise.all(pageItems.map(resolveContentArrayItem)));
-  embed.setFooter(`Page ${page} of ${maxPage}`);
+  embed.setFooter(`Page ${page} of ${maxPage}   |   ${items.length} items`);
   return embed;
 };
 
