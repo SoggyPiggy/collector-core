@@ -148,7 +148,6 @@ export default class CoinInstance {
 
   /**
    * @param {CoinInstance[]} coinInstances
-   * @param {Object} previous
    * @param {?Number} attempt
    * @returns {CoinInstance[]}
    */
@@ -160,11 +159,13 @@ export default class CoinInstance {
       ...coinInstance,
       _id: insertedIds[index],
     }));
-    let problemInstances = processedInstances.filter((coinInstance) => typeof coinInstance._id !== 'undefined');
+    let problemInstances = processedInstances
+      .filter((coinInstance) => !(coinInstance._id instanceof ObjectID));
     if (problemInstances.length <= 0) return processedInstances;
     if (attempt > 10) return [];
     problemInstances = problemInstances.map((coinInstance) => new CoinInstance({
       ...coinInstance,
+      _id: undefined,
       reference: genReference(),
     }));
     return [
