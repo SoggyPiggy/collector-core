@@ -56,7 +56,7 @@ const resolveContentArrayItem = function resolveContentArrayItem(item) {
 };
 
 const resolveContentArray = async function resolveContentArray(content) {
-  const [{ argv, embed: embedOptions }, ...items] = content;
+  const [{ argv = {}, embed: embedOptions = {} }, ...items] = content;
   const embed = new MessageEmbed({ ...embedOptions });
   const maxPage = Math.ceil(items.length / 20);
   const page = Math.min(argv.page, maxPage);
