@@ -59,7 +59,7 @@ const resolveContentArray = async function resolveContentArray(content) {
   const [{ argv = {}, embed: embedOptions = {} }, ...items] = content;
   const embed = new MessageEmbed({ ...embedOptions });
   const maxPage = Math.ceil(items.length / 20);
-  const page = Math.min(argv.page, maxPage);
+  const page = Math.min(typeof argv.page === 'number' ? argv.page : 1, maxPage);
   const pageItems = items.slice((page - 1) * 20, page * 20);
   embed.setDescription(await Promise.all(pageItems.map(resolveContentArrayItem)));
   embed.setFooter(`Page ${page} of ${maxPage}`);
