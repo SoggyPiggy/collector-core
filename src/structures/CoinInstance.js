@@ -1,3 +1,4 @@
+import { ObjectID } from 'mongodb';
 import { database } from '../database';
 import random from '../utils/random';
 
@@ -143,6 +144,33 @@ export default class CoinInstance {
       if (attempt > 10) throw error;
       return CoinInstance.insert({ ...coinInstance, reference: genReference() }, attempt + 1);
     }
+  }
+
+  /**
+   * @param {CoinInstance[]} coinInstances
+   * @param {Object} previous
+   * @param {?Number} attempt
+   * @returns {CoinInstance[]}
+   */
+  static async insertBulk(coinInstances, attempt = 1) {
+    const { insertedIds } = await (await collection).bulkWrite(
+      coinInstances.map((insertOne) => ({ insertOne })),
+    );
+    const processedInstances = coinInstances.map((coinInstance, index) => new CoinInstance({
+      ...coinInstance,
+      _id: insertedIds[index],
+    }));
+    let problemInstances = processedInstances.filter((coinInstance) => typeof coinInstance._id !== 'undefined');
+    if (problemInstances.length <= 0) return processedInstances;
+    if (attempt > 10) return [];
+    problemInstances = problemInstances.map((coinInstance) => new CoinInstance({
+      ...coinInstance,
+      reference: genReference(),
+    }));
+    return [
+      ...processedInstances,
+      ...(await CoinInstance.insertBulk(problemInstances, attempt + 1)),
+    ];
   }
 
   /**
