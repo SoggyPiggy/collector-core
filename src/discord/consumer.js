@@ -19,7 +19,7 @@ const processMessage = async function processMessageFromClientEvent(message) {
   if (!(channel instanceof DMChannel || content.startsWith('>'))) return;
   const input = content.replace(/^>/g, '');
   const account = await Account.getByDiscordUser(author);
-  process(input, account, { discordUser: author })
+  process(input, account, { discordUser: author, discordMessage: message })
     .then((result) => send(result, author, channel))
     .catch((error) => {
       if (error instanceof CollectorError) send(error.message, author, channel);
