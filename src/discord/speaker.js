@@ -3,6 +3,7 @@ import client from './client';
 import { Command } from '../commands';
 import { AccountLogger, CoinInstanceLogger } from '../loggers';
 import { MajorMinor } from '../changelog';
+import { makeReactive } from './reactive';
 import {
   Account,
   CoinInstance,
@@ -208,6 +209,12 @@ const appendUser = function appendUserToMessage(message, user) {
 export const send = async function sendMessage(content, user, destination) {
   const resolvedContent = appendUser(await resolveContent(content), user);
   const message = destination.send(resolvedContent);
+  makeReactive(
+    async (data) => (appendUser(await resolveContent(data), user)),
+    message,
+    content,
+    user,
+  );
 };
 
 export const notify = function sendNotification() {};

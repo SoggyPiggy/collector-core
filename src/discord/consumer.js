@@ -4,6 +4,7 @@ import { process } from '../commands';
 import { Account } from '../structures';
 import client from './client';
 import { send } from './speaker';
+import { processReaction } from './reactive';
 
 /**
  * @typedef {import('discord.js').Message} Message
@@ -28,3 +29,5 @@ const processMessage = async function processMessageFromClientEvent(message) {
 };
 
 client.on('message', processMessage);
+client.on('messageReactionAdd', processReaction);
+client.on('messageReactionRemove', processReaction);
