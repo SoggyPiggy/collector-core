@@ -206,8 +206,8 @@ const appendUser = function appendUserToMessage(message, user) {
 };
 
 export const send = async function sendMessage(content, user, destination) {
-  const message = await resolveContent(content);
-  destination.send(appendUser(message, user));
+  const resolvedContent = appendUser(await resolveContent(content), user);
+  const message = destination.send(resolvedContent);
 };
 
 export const notify = function sendNotification() {};
