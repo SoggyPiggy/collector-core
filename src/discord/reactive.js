@@ -9,7 +9,7 @@ const resetRemoval = function setOrResetRemovalOfReactives(id) {
   }
   const timeout = setTimeout(() => {
     reactiveCache.delete(id);
-  }, 30000);
+  }, 1800000);
   timeoutCache.set(id, timeout);
 };
 
