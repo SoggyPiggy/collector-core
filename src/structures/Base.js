@@ -61,6 +61,11 @@ export default class Base {
     if (typeof this.reference === 'number') this.reference = genReference(this.reference);
   }
 
+  _defineTimestamp() {
+    this._define('insertedAt');
+    if (typeof this.insertedAt === 'undefined') this.insertedAt = new Date();
+  }
+
   toData() {
     return Object.values(this._.variables)
       .filter(({ save }) => save)
