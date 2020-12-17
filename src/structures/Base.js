@@ -90,6 +90,15 @@ export default class Base {
     return (await this.newBulk(Class, [item]))[0];
   }
 
+  static async newBulk(Class, options) {
+    if (!Array.isArray(options)) return;
+    if (options.length <= 0) return;
+    const items = options
+      .map((option) => (option instanceof Base ? option : new Class(option)))
+      .map((insertOne) => ({ insertOne }));
+    (await Class.collection).bulkWrite(items);
+  }
+
   // Need to fix not using item.toData();
   static async newBulkOld(Class, options, attempt = 1) {
     const items = options.map((option) => (option instanceof Base ? option : new Class(option)));
