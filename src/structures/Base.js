@@ -99,7 +99,7 @@ export default class Base {
     (await Class.collection).bulkWrite(items);
   }
 
-  static async find(Class, query = {}) {
+  static async findOne(Class, query = {}) {
     const item = await (await Class.collection).findOne(query);
     if (item === null) return undefined;
     return new Class(item);
