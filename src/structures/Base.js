@@ -99,30 +99,6 @@ export default class Base {
     (await Class.collection).bulkWrite(items);
   }
 
-  // Need to fix not using item.toData();
-  static async newBulkOld(Class, options, attempt = 1) {
-    const items = options.map((option) => (option instanceof Base ? option : new Class(option)));
-    const { insertedIds } = await (await Class.collection).bulkWrite(
-      items.map((insertOne) => ({ insertOne })),
-    );
-    const processedItems = items.map((item, index) => new Class({
-      ...item,
-      _id: insertedIds[index],
-    }));
-    let problemItems = processedItems.filter(({ _id }) => !(_id instanceof ObjectID));
-    if (problemItems.length <= 0) return processedItems;
-    if (attempt > 10) return [];
-    problemItems = problemItems.map((item) => new Class({
-      ...item,
-      _id: undefined,
-      reference: genReference(),
-    }));
-    return [
-      ...processedItems.filter(({ _id }) => _id instanceof ObjectID),
-      ...(await Class.insertBulk(problemItems, attempt + 1)),
-    ];
-  }
-
   static async find(Class, query = {}) {
     const item = await (await Class.collection).findOne(query);
     if (item === null) return undefined;
