@@ -105,6 +105,14 @@ export default class Base {
     return new Class(item);
   }
 
+  static async findMany(Class, query = {}) {
+    return [...(await (await Class.collection)
+      .find(query)
+      .map((document) => new Class(document))
+      .toArray()
+    )];
+  }
+
   static async updateOne(item) {
     if (!item._.modified) return;
     item._.modified = false;
