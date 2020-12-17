@@ -56,19 +56,20 @@ export default class CoinInstance {
   }
 
   get grade() {
+    const { condition } = this;
     switch (true) {
-      case (this.condition >= 1.00): return 'Mint';
-      case (this.condition >= 0.95): return 'Mint-';
-      case (this.condition >= 0.85): return 'Good+';
-      case (this.condition >= 0.75): return 'Good';
-      case (this.condition >= 0.65): return 'Good-';
-      case (this.condition >= 0.55): return 'Average+';
-      case (this.condition >= 0.45): return 'Average';
-      case (this.condition >= 0.35): return 'Average-';
-      case (this.condition >= 0.25): return 'Bad+';
-      case (this.condition >= 0.15): return 'Bad';
-      case (this.condition >= 0.05): return 'Bad-';
-      case (this.condition >= 0.01): return 'Terrible';
+      case (condition >= 1.00): return 'Mint';
+      case (condition >= 0.95): return 'Mint-';
+      case (condition >= 0.85): return 'Good+';
+      case (condition >= 0.75): return 'Good';
+      case (condition >= 0.65): return 'Good-';
+      case (condition >= 0.55): return 'Average+';
+      case (condition >= 0.45): return 'Average';
+      case (condition >= 0.35): return 'Average-';
+      case (condition >= 0.25): return 'Bad+';
+      case (condition >= 0.15): return 'Bad';
+      case (condition >= 0.05): return 'Bad-';
+      case (condition >= 0.01): return 'Terrible';
       default: return 'Cum Ridden';
     }
   }
