@@ -91,7 +91,8 @@ export default class Base {
   }
 
   // Need to fix not using item.toData();
-  static async newBulk(Class, items, attempt = 1) {
+  static async newBulkOld(Class, options, attempt = 1) {
+    const items = options.map((option) => (option instanceof Base ? option : new Class(option)));
     const { insertedIds } = await (await Class.collection).bulkWrite(
       items.map((insertOne) => ({ insertOne })),
     );
