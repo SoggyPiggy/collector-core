@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import { ObjectID } from 'mongodb';
 import { random } from '../utils';
 import { database } from '../database';
 
