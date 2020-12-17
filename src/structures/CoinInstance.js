@@ -220,6 +220,17 @@ export default class CoinInstance {
     return cursor.toArray();
   }
 
+  static async updateBulk(items) {
+    if (!Array.isArray(items)) return;
+    if (items.length <= 0) return;
+    (await collection).bulkWrite(items.map((item) => ({
+      updateOne: {
+        filter: { _id: item._id },
+        update: { $set: item },
+      },
+    })));
+  }
+
   /**
    * @param {CoinInstance[]} coins
    */
