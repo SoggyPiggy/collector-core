@@ -94,7 +94,7 @@ export default class Base {
     if (!Array.isArray(options)) return;
     if (options.length <= 0) return;
     const items = options
-      .map((option) => (option instanceof Base ? option : new Class(option)))
+      .map((option) => (option instanceof Base ? option.toData() : option))
       .map((insertOne) => ({ insertOne }));
     (await Class.collection).bulkWrite(items);
   }
