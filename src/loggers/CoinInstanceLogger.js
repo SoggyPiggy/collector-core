@@ -99,4 +99,8 @@ export default class CoinInstanceLogger extends Logger {
     if (log === null) return undefined;
     return new CoinInstanceLogger(log);
   }
+
+  static async getCount(account, transaction = 'collected') {
+    return (await collection).countDocuments({ transaction, _accountID: account._id });
+  }
 }
