@@ -13,6 +13,7 @@ const command = new Command({
   title: 'PP Compare',
   description: 'Displays and compares two profiles\' stats',
   aliases: ['pp', 'ppcompare'],
+  isPublic: false,
   onExecute: execute,
 });
 
