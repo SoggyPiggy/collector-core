@@ -58,6 +58,34 @@ export default class Account {
     return Account.update(this);
   }
 
+  async stats() {
+    const modules = await Promise.all([
+      import('./CoinInstance'),
+      import('../loggers/CoinInstanceLogger'),
+      import('../loggers/AccountLogger'),
+    ]);
+    const [
+      CoinInstance,
+      CoinInstanceLogger,
+      AccountLogger,
+    ] = modules.map((module) => module.default);
+    /** @type {import('./CoinInstance').default[]} */
+    const coins = (await CoinInstance.allFromAccount(this)).sort((a, b) => b.value - a.value);
+    const stats = { coins };
+    // stats.coinsUniqueCount = new Set(coins.map((coin) => coin._coinID)).size;
+    stats.coinsValueTotal = coins.reduce((previous, instance) => previous + instance.value, 0);
+    stats.coinsValueAvg = stats.coinsValueTotal / coins.length;
+    [stats.coinsMVC] = coins;
+    stats.coinsLVC = coins[coins.length - 1];
+    stats.logsCoinsCollected = await CoinInstanceLogger.getCount(this, 'collected');
+    stats.logsCoinsScrapped = await CoinInstanceLogger.getCount(this, 'scrapped');
+    stats.logsCoinsClaimed = await CoinInstanceLogger.getCount(this, 'claimed');
+    stats.logsCoinsRepaired = await CoinInstanceLogger.getCount(this, 'repaired');
+    stats.logsAccountScrapWithdrawl = await AccountLogger.aggregateScrap(this, 'scrap-withdrawl');
+    stats.logsAccountScrapDeposit = await AccountLogger.aggregateScrap(this, 'scrap-deposit');
+    return stats;
+  }
+
   static get collection() { return collection; }
 
   /**
