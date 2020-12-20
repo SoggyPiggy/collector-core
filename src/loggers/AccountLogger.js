@@ -53,4 +53,12 @@ export default class AccountLogger extends Logger {
       transaction: 'scrap-deposit',
     }).setBefore(account);
   }
+
+  static async aggregateScrap(account, transaction) {
+    const scraps = await (await collection).find({ transaction, _accountID: account._id })
+      .map(({ before, after }) => (after.scrap - before.scrap))
+      .toArray();
+    if (scraps.length <= 0) return 0;
+    return scraps.reduce((previous, scrap) => (previous + scrap));
+  }
 }
