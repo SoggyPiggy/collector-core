@@ -1,5 +1,6 @@
 import { ObjectID } from 'mongodb';
 import { database } from '../database';
+import evaluateCoinInstance from '../utils/evaluateCoinInstance';
 import random from '../utils/random';
 
 const collection = (async () => (await database()).collection('coin_instances'))();
@@ -181,11 +182,13 @@ export default class CoinInstance {
    * @returns {CoinInstance}
    */
   static generate(options, account, coin) {
-    return new CoinInstance({
+    const instance = new CoinInstance({
       ...options,
       _accountID: account._id,
       _coinID: coin._id,
     });
+    instance.value = evaluateCoinInstance(coin, instance);
+    return instance;
   }
 
   /**
