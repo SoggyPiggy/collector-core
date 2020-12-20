@@ -1,11 +1,16 @@
 import Command from '../Command';
 import CollectorError from '../../error';
+import { userResolver } from '../../utils';
+import { Account } from '../../structures';
 
 /**
  * @param {import('../').CommandExecuteArgs} commandExecuteArgs
  */
-const execute = async function executeCommand() {
-  throw new CollectorError('Command execute function not defined');
+const execute = async function executeCommand({ account, command, inputArguments }) {
+  const argv = command.parseArgs(inputArguments);
+  const target = typeof argv._args[0] !== 'undefined' ? await userResolver(argv._args[0]) : account;
+  if (!(target instanceof Account)) throw new CollectorError('Account not found');
+  return target;
 };
 
 const command = new Command({
