@@ -96,25 +96,42 @@ const formatAccountCreated = async function formatAccountCreated(logger) {
 };
 
 const formatAccount = async function formatAccount(account) {
+  const {
+    coins,
+    // coinsUniqueCount,
+    coinsValueTotal,
+    coinsValueAvg,
+    coinsMVC,
+    coinsLVC,
+    logsCoinsCollected,
+    logsCoinsScrapped,
+    logsCoinsClaimed,
+    logsCoinsRepaired,
+    logsAccountScrapWithdrawl,
+    logsAccountScrapDeposit,
+  } = (await account.stats());
   const user = client.users.fetch(account.discordID);
   const embed = new MessageEmbed();
   embed.setTitle(`Profile: ${(await user).username}`);
   embed.setThumbnail((await user).avatarURL({ format: 'png', dynamic: true, size: 128 }));
   embed.setDescription([
-    `**Collection**: ${undefined}`,
-    `**Collection Unique**: ${undefined}`,
-    `**Collection Value**: ${undefined}`,
-    `**Collection Avg Value**: ${undefined}`,
-    `**Collection MVC**: ${undefined}`,
-    `**Collection LVC**: ${undefined}`,
+    `**Collection**: ${coins.length}`,
+    // `**Collection Unique**: ${coinsUniqueCount}`,
+    `**Collection Value**: ${CoinInstance.friendlyValue(coinsValueTotal)}`,
+    `**Collection Avg Value**: ${CoinInstance.friendlyValue(coinsValueAvg)}`,
+    `**Collection MVC**: \`${coinsMVC.reference}\` ${CoinInstance.friendlyValue(coinsMVC.value)} **${(await coinsMVC.coin).name}**`,
+    `**Collection LVC**: \`${coinsLVC.reference}\` ${CoinInstance.friendlyValue(coinsLVC.value)} **${(await coinsLVC.coin).name}**`,
     '',
-    `**Coins Collected**: ${undefined}`,
-    `**Coins Scrapped**: ${undefined}`,
+    `**Coins Collected**: ${logsCoinsCollected}`,
+    `**Coins Claimed**: ${logsCoinsClaimed}`,
+    `**Coins Scrapped**: ${logsCoinsScrapped}`,
+    `**Coins Repaired**: ${logsCoinsRepaired}`,
     '',
-    `**Scrap**: ${undefined}`,
-    `**Scrap Collected**: ${undefined}`,
-    `**Scrap Used**: ${undefined}`,
+    `**Scrap**: ${account.scrap}`,
+    `**Scrap Collected**: ${logsAccountScrapDeposit}`,
+    `**Scrap Used**: ${logsAccountScrapWithdrawl}`,
   ].join('\n'));
+  return embed;
 };
 
 const formatMajorMinor = function formatMajorMinor(minor) {
