@@ -217,7 +217,7 @@ export default class CoinInstance {
   static async all(query = {}, options = {}) {
     const cursor = await (await collection).find(query, options);
     cursor.map((document) => new CoinInstance(document));
-    return cursor.toArray();
+    return [...(await cursor.toArray())];
   }
 
   static async updateBulk(items) {
