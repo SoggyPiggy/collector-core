@@ -112,8 +112,7 @@ export default class CoinInstance {
   }
 
   friendlyValue() {
-    const sections = `${Math.floor(this.value * 100) / 100}`.split('.');
-    return `¤${sections[0]}.${sections[1] ? `${sections[1]}`.padEnd(2, '0') : '00'}`;
+    return CoinInstance.friendlyValue(this.value);
   }
 
   async structure(scope) {
@@ -261,5 +260,10 @@ export default class CoinInstance {
   //         .map(([, , coin]) => coin),
   //     ));
   //   });
+  }
+
+  static friendlyValue(value = 0) {
+    const sections = `${Math.floor(value * 100) / 100}`.split('.');
+    return `¤${sections[0]}.${sections[1] ? `${sections[1]}`.padEnd(2, '0') : '00'}`;
   }
 }
